@@ -1,0 +1,12 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/api/form": "pages/api/form.js",
+  "/api/hello": "pages/api/hello.js",
+  "/fractionalise": "pages/fractionalise.html",
+  "/": "pages/index.html",
+  "/_document": "pages/_document.js",
+  "/merge": "pages/merge.js",
+  "/trade": "pages/trade.js",
+  "/404": "pages/404.html"
+}
