@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Image from 'next/image';
 import Navbar from '../components/NavBar'
 import { ethers } from 'ethers';
 import { useEffect, useReducer, useState } from 'react';
@@ -22,14 +23,14 @@ const executeFractionalisation = async ({walletContext, contractAddress, tokenID
     if(tokenApproved.toLowerCase() !== FRACTION_CONTRACT_ADDRESS.toLowerCase()) {
         const txnReceipt = await signedTokenAddress.approve(FRACTION_CONTRACT_ADDRESS,tokenID);
         console.log("Transcation Receipt: ", txnReceipt);
-        <div class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
+        <div className="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
             Transaction has been sent with Reciept: {txnReceipt.hash}
         </div>
     } else {
         console.log("Can fractionalise now!");
         const txnReceipt = await signedStakingContract.fractionalize(contractAddress, tokenID, tokenCount);
         console.log("Transcation Receipt: ", txnReceipt);
-        <div class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
+        <div className="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
             Transaction has been sent with Reciept: {txnReceipt.hash}
         </div>
     }
@@ -47,8 +48,8 @@ const FractionCard = ({walletNFTsList = [], walletContext}) => {
         const tokenCount = fractionCount.get(key);
         console.log("Fraction Count: ", tokenCount, " Contract: ", contractAddress, " TokenID: ", tokenID);
         if(tokenCount <= 0 || tokenCount > maxFractionCount) {
-            <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800 z-50" role="alert">
-                <span class="font-medium">Fraction Count should be less than {MAX_FRACTION_COUNT}</span>
+            <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800 z-50" role="alert">
+                <span className="font-medium">Fraction Count should be less than {MAX_FRACTION_COUNT}</span>
             </div>
         } else if(walletContext){
             executeFractionalisation({walletContext, contractAddress, tokenID, tokenCount});
@@ -65,13 +66,13 @@ const FractionCard = ({walletNFTsList = [], walletContext}) => {
                             walletNFTsList.map((data) => 
                                 <div className="rounded-lg shadow-lg bg-white max-w-sm" key={data.originalAddress + "-" + data.tokenID}>
                                     <div className="m-h-60">
-                                        <img className="rounded-t-lg" src={data.nftImage} alt=""/>
+                                        <Image className="rounded-t-lg" src={data.nftImage} alt=""/>
                                     </div>
                                     <div className="p-6">
                                         <div className="flex flex-row">
                                             <p className="text-emerald-700 text-sm font-semibold mb-2">Original Address: </p>
                                             <div className="flex-1" />
-                                            <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://rinkeby.etherscan.io/address/${data.originalAddress}`} target="_blank">{data.originalAddress.substring(0,6) + "..." + data.originalAddress.substring(data.originalAddress.length-6,data.originalAddress.length)} </a> 
+                                            <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://rinkeby.etherscan.io/address/${data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,6) + "..." + data.originalAddress.substring(data.originalAddress.length-6,data.originalAddress.length)} </a> 
                                         </div>
                                         <div className="flex flex-row">
                                             <p className="text-emerald-700 text-sm font-semibold mb-2">Token Id:</p>

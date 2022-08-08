@@ -8,7 +8,7 @@ const Default = () => {
     <div className="h-full w-full relative">
       <div className="absolute top-0 left-0 ml-12 mt-28">
           <p className="text-white text-6xl">An Innovation In NFT Space</p>
-          <Link href="/fractionalise"><button className="font-mono mt-32 rounded bg-stiletto-500 hover:bg-stiletto-300 border-2 border-white text-white px-8 py-3 text-base font-normal">Fractionalise ></button></Link>
+          <Link href="/fractionalise"><button className="font-mono mt-32 rounded bg-stiletto-500 hover:bg-stiletto-300 border-2 border-white text-white px-8 py-3 text-base font-normal">Fractionalise &gt;</button></Link>
       </div>
     </div>
   )
@@ -19,7 +19,7 @@ const Fractionalise = () => {
     <div className="h-full w-full relative">
       <div className="absolute top-0 left-0 ml-12 mt-28">
           <p className="text-white text-6xl">Fractionalise Your NFTs</p>
-          <Link href="/fractionalise"><button className="font-mono mt-32 rounded bg-stiletto-500 hover:bg-stiletto-300 border border-white text-white px-8 py-3 text-base font-normal">Fractionalise ></button></Link>
+          <Link href="/fractionalise"><button className="font-mono mt-32 rounded bg-stiletto-500 hover:bg-stiletto-300 border border-white text-white px-8 py-3 text-base font-normal">Fractionalise &gt;</button></Link>
       </div>
     </div>
   )
@@ -30,7 +30,7 @@ const Merge = () => {
     <div className="h-full w-full relative">
       <div className="absolute top-0 left-0 ml-12 mt-28">
           <p className="text-white text-6xl">Collect Fractions And Merge</p>
-          <Link href="/merge"><button className="font-mono mt-32 rounded bg-stiletto-500 hover:bg-stiletto-300 border border-white text-white px-8 py-3 text-base font-normal">Merge ></button></Link>
+          <Link href="/merge"><button className="font-mono mt-32 rounded bg-stiletto-500 hover:bg-stiletto-300 border border-white text-white px-8 py-3 text-base font-normal">Merge &gt;</button></Link>
       </div>
     </div>
   )
@@ -52,7 +52,7 @@ const Trade = () => {
     <div className="h-full w-full relative">
       <div className="absolute top-0 left-0 ml-12 mt-28">
           <p className="text-white text-6xl">Trade On NFT Marketplaces</p>
-          <Link href="/trade"><button className="font-mono mt-32 rounded bg-stiletto-500 hover:bg-stiletto-300 border border-white text-white px-8 py-3 text-base font-normal">Trade ></button></Link>
+          <Link href="/trade"><button className="font-mono mt-32 rounded bg-stiletto-500 hover:bg-stiletto-300 border border-white text-white px-8 py-3 text-base font-normal">Trade &gt;</button></Link>
       </div>
     </div>
   )

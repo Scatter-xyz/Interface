@@ -1,4 +1,5 @@
 import Navbar from '../components/NavBar'
+import Image from 'next/image'
 import { FooterData } from '.'
 
 const TradeCard = ({fractionDataList}) => {
@@ -9,18 +10,18 @@ const TradeCard = ({fractionDataList}) => {
                     fractionDataList.map((data) => 
                         <div className="rounded-lg shadow-lg bg-white max-w-sm" key={data.originalAddress + "-" + data.tokenID}>
                             <a href="#!">
-                            <img className="rounded-t-lg" src={data.nftImage} alt=""/>
+                            <Image className="rounded-t-lg" src={data.nftImage} alt=""/>
                             </a>
                             <div className="p-6">
                                 <div className="flex flex-row">
                                     <p className="text-emerald-700 text-sm font-semibold mb-2">Original Address: </p>
                                     <div className="flex-1" />
-                                    <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://etherscan.io/address/${data.originalAddress}`} target="_blank">{data.originalAddress.substring(0,6) + "..." + data.originalAddress.substring(data.originalAddress.length-6,data.originalAddress.length)} </a> 
+                                    <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://etherscan.io/address/${data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,6) + "..." + data.originalAddress.substring(data.originalAddress.length-6,data.originalAddress.length)} </a> 
                                 </div>
                                 <div className="flex flex-row">
                                     <p className="text-emerald-700 text-sm font-semibold mb-2">Fraction Address: </p>
                                     <div className="flex-1" />
-                                    <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://rinkeby.etherscan.io//address/${data.fractionAddress}`} target="_blank">{data.fractionAddress.substring(0,6) + "..." + data.fractionAddress.substring(data.fractionAddress.length-6,data.fractionAddress.length)}  </a>
+                                    <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://rinkeby.etherscan.io//address/${data.fractionAddress}`} rel="noreferrer" target="_blank">{data.fractionAddress.substring(0,6) + "..." + data.fractionAddress.substring(data.fractionAddress.length-6,data.fractionAddress.length)}  </a>
                                 </div>
                                 <div className="flex flex-row">
                                     <p className="text-emerald-700 text-sm font-semibold mb-2">Token Id:</p>
