@@ -31,8 +31,8 @@ jobs:
    # - run: npm test
 
     - name: Deploy 🚀
-      uses: JamesIves/github-pages-deploy-action@v4
+      uses: JamesIves/github-pages-deploy-action@v3
       with:
-        github_token: ${{ secrets.GIT_TOKEN }}
-        branch: gh-pages
-        folder: .next # The folder the action should deploy.
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: .next # The folder the action should deploy.
