@@ -16,52 +16,50 @@ var requestOptions = (FETCH_TYPE) => {
 };
 
 var FETCH_ALL_NFTs = JSON.stringify({
-    query: "{\n  tokens(first: 5) {\n    id\n    tokenId\n    owner {\n      id\n    }\n    fractionContract {\n      id\n    }\n    originalContract {\n        id\n    }\n    fractionCount\n  }\n}",
+    query: "{\n  tokens(first: 5) {\n    id\n    tokenId\n    owner \n    fractionContract\n    originalContract \n    fractionCount\n    tokenURI\n  }\n}",
     variables: {}
 })
 
-const TradeCard = ({fractionDataList}) => {
+const TradeCard = ({nftData={}}) => {
+
+    const[data,setdata] = useState(nftData);
+
+    const fetchImageSrc = async () => {
+        let nftResponse = await fetch(data.nftImage.replace('ipfs://','https://ipfs.io/ipfs/'));
+        let nftMeta = await nftResponse.json();
+        setdata({...data, nftImage: nftMeta.image.replace('ipfs://','https://ipfs.io/ipfs/')});
+    }
+    fetchImageSrc();
+
     return (
-        <div className="p-20 z-0">
-            <div className="flex flex-rows">
-                <div className="flex-1"></div>
-                <div className="grid grid-cols-3 gap-12">
-                    {
-                        fractionDataList.map((data) => 
-                            <div className="rounded-lg shadow-lg bg-white max-w-sm" key={data.originalAddress + "-" + data.tokenID}>
-                                <a href="#!">
-                                <img className="rounded-t-lg" src={data.nftImage} alt=""/>
-                                </a>
-                                <div className="p-6">
-                                    <div className="flex flex-row">
-                                        <p className="text-emerald-700 text-sm font-semibold mb-2">Original Address: </p>
-                                        <div className="flex-1" />
-                                        <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://etherscan.io/address/${data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,6) + "..." + data.originalAddress.substring(data.originalAddress.length-6,data.originalAddress.length)} </a> 
-                                    </div>
-                                    <div className="flex flex-row">
-                                        <p className="text-emerald-700 text-sm font-semibold mb-2">Fraction Address: </p>
-                                        <div className="flex-1" />
-                                        <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://rinkeby.etherscan.io//address/${data.fractionAddress}`} rel="noreferrer" target="_blank">{data.fractionAddress.substring(0,6) + "..." + data.fractionAddress.substring(data.fractionAddress.length-6,data.fractionAddress.length)}  </a>
-                                    </div>
-                                    <div className="flex flex-row">
-                                        <p className="text-emerald-700 text-sm font-semibold mb-2">Token Id:</p>
-                                        <div className="flex-1" />
-                                        <p className="text-sm text-emerald-900">{data.tokenID}</p>
-                                    </div>
-                                    <div className="flex flex-row">
-                                        <p className="text-emerald-700 text-sm font-semibold mb-2">Fraction Count:</p>
-                                        <div className="flex-1" />
-                                        <p className="text-sm text-emerald-900">{data.fractionCount}</p>
-                                    </div>
-                                    <div className="relative grid place-items-center h-full mb-12 mt-16">
-                                    <button onClick={() => window.open(data.openSeaLink, '_blank', 'noopener,noreferrer')} type="button"  className="absolute font-sans px-12 py-4 bg-stiletto-500 text-white font-semibold text-l uppercase rounded">Trade On Opensea</button>
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    }
+        <div key={data.id} className="rounded-lg shadow-lg bg-white max-w-sm" key={data.originalAddress + "-" + data.tokenID}>
+            <a href="#!">
+            <img className="rounded-t-lg" src={data.nftImage} alt=""/>
+            </a>
+            <div className="p-6">
+                <div className="flex flex-row">
+                    <p className="text-emerald-700 text-sm font-semibold mb-2">Original Address: </p>
+                    <div className="flex-1" />
+                    <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://etherscan.io/address/${data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,6) + "..." + data.originalAddress.substring(data.originalAddress.length-6,data.originalAddress.length)} </a> 
                 </div>
-                <div className="flex-1"></div>
+                <div className="flex flex-row">
+                    <p className="text-emerald-700 text-sm font-semibold mb-2">Fraction Address: </p>
+                    <div className="flex-1" />
+                    <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://rinkeby.etherscan.io//address/${data.fractionAddress}`} rel="noreferrer" target="_blank">{data.fractionAddress.substring(0,6) + "..." + data.fractionAddress.substring(data.fractionAddress.length-6,data.fractionAddress.length)}  </a>
+                </div>
+                <div className="flex flex-row">
+                    <p className="text-emerald-700 text-sm font-semibold mb-2">Token Id:</p>
+                    <div className="flex-1" />
+                    <p className="text-sm text-emerald-900">{data.tokenID}</p>
+                </div>
+                <div className="flex flex-row">
+                    <p className="text-emerald-700 text-sm font-semibold mb-2">Fraction Count:</p>
+                    <div className="flex-1" />
+                    <p className="text-sm text-emerald-900">{data.fractionCount}</p>
+                </div>
+                <div className="relative grid place-items-center h-full mb-12 mt-16">
+                <button onClick={() => window.open(data.openSeaLink, '_blank', 'noopener,noreferrer')} type="button"  className="absolute font-sans px-12 py-4 bg-stiletto-500 text-white font-semibold text-l uppercase rounded">Trade On Opensea</button>
+                </div>
             </div>
         </div>
     )
@@ -78,15 +76,16 @@ const Trade = () => {
     
         if(response.status === 200) {
             let data = await response.json();
-            console.log("Data is: ", data);
-            data.data.tokens.map(token => {
+            await data.data.tokens.map(async (token) => {
+                
                 fractionData.push({
-                    nftImage: '',
-                    originalAddress: token.originalContract.id,
-                    fractionAddress: token.fractionContract.id,
+                    nftImage: token.tokenURI,
+                    originalAddress: token.originalContract,
+                    fractionAddress: token.fractionContract,
                     tokenID: token.tokenId,
                     fractionCount: token.fractionCount,
-                    openSeaLink: OPENSEA_LINK + token.fractionContract.id + '/' + token.id
+                    openSeaLink: OPENSEA_LINK + token.fractionContract + '/' + token.tokenId,
+                    id:token.id
                 });
             });
         }
@@ -96,8 +95,6 @@ const Trade = () => {
     useEffect(() => {
         fetchAllFractionData();
     },[]);
-
-    console.log("Fractional data: ", fractionData);
 
     return (
         <>
@@ -114,136 +111,24 @@ const Trade = () => {
                     </div>
                 </div>
                 <div className="pt-36 min-h-screen z-0">
-                    <TradeCard fractionDataList={fractionData} />
+                    <div className="p-20 z-0">
+                        <div className="flex flex-rows">
+                            <div className="flex-1"></div>
+                            <div className="grid grid-cols-3 gap-12">
+                                {
+                                    fractionData.map((data) => 
+                                        <TradeCard nftData={data} />
+                                    )
+                                }
+                            </div>
+                            <div className="flex-1"></div>
+                        </div>
+                    </div>
                 </div>
                 <FooterData />
             </div>
         </>
     )
 }
-
-// export async function getServerSideProps(context) {
-//     let response = await fetch("https://api.thegraph.com/subgraphs/name/cpp-phoenix/scatter", requestOptions(FETCH_ALL_NFTs));
-
-//     let fractionData = [{
-//         nftImage: '',
-//         originalAddress: 'sfs',
-//         fractionAddress: 'sfs',
-//         tokenID: 'sfs',
-//         fractionCount: 'sfs',
-//         openSeaLink: 'sfs'
-//     }]
-
-//     if(response.status === 200) {
-//         let data = await response.json();
-//         console.log("Data is: ", data);
-//         data.tokens.map(token => {
-//             fractionData.push({
-//                 nftImage: '',
-//                 originalAddress: token.originalContract.id,
-//                 fractionAddress: token.fractionContract.id,
-//                 tokenID: token.id,
-//                 fractionCount: token.fractionCount,
-//                 openSeaLink: OPENSEA_LINK + token.fractionContract.id + '/' + token.id
-//             });
-//         });
-//     }
-
-//     return {
-//         props: {
-//             fractionData: fractionData
-//             // fractionData: [
-//             //     {
-//             //         nftImage: "https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi",
-//             //         originalAddress: "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
-//             //         fractionAddress: "0xe482247E3C9087b22106B03e03d0cbeB35F5d958",
-//             //         tokenID: "1",
-//             //         fractionCount: "15",
-//             //         openSeaLink: "https://opensea.io/assets/ethereum/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/1",
-//             //     },
-//             //     {
-//             //         nftImage: "https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi",
-//             //         originalAddress: "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
-//             //         fractionAddress: "0xe482247E3C9087b22106B03e03d0cbeB35F5d958",
-//             //         tokenID: "2",
-//             //         fractionCount: "15",
-//             //         openSeaLink: "https://opensea.io/assets/ethereum/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/1",
-//             //     },
-//             //     {
-//             //         nftImage: "https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi",
-//             //         originalAddress: "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
-//             //         fractionAddress: "0xe482247E3C9087b22106B03e03d0cbeB35F5d958",
-//             //         tokenID: "3",
-//             //         fractionCount: "15",
-//             //         openSeaLink: "https://opensea.io/assets/ethereum/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/1",
-//             //     },
-//             //     {
-//             //         nftImage: "https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi",
-//             //         originalAddress: "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
-//             //         fractionAddress: "0xe482247E3C9087b22106B03e03d0cbeB35F5d958",
-//             //         tokenID: "4",
-//             //         fractionCount: "15",
-//             //         openSeaLink: "https://opensea.io/assets/ethereum/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/1",
-//             //     },
-//             //     {
-//             //         nftImage: "https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi",
-//             //         originalAddress: "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
-//             //         fractionAddress: "0xe482247E3C9087b22106B03e03d0cbeB35F5d958",
-//             //         tokenID: "5",
-//             //         fractionCount: "15",
-//             //         openSeaLink: "https://opensea.io/assets/ethereum/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/1",
-//             //     },
-//             //     {
-//             //         nftImage: "https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi",
-//             //         originalAddress: "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
-//             //         fractionAddress: "0xe482247E3C9087b22106B03e03d0cbeB35F5d958",
-//             //         tokenID: "6",
-//             //         fractionCount: "15",
-//             //         openSeaLink: "https://opensea.io/assets/ethereum/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/1",
-//             //     },
-//             //     {
-//             //         nftImage: "https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi",
-//             //         originalAddress: "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
-//             //         fractionAddress: "0xe482247E3C9087b22106B03e03d0cbeB35F5d958",
-//             //         tokenID: "7",
-//             //         fractionCount: "15",
-//             //         openSeaLink: "https://opensea.io/assets/ethereum/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/1",
-//             //     },
-//             //     {
-//             //         nftImage: "https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi",
-//             //         originalAddress: "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
-//             //         fractionAddress: "0xe482247E3C9087b22106B03e03d0cbeB35F5d958",
-//             //         tokenID: "8",
-//             //         fractionCount: "15",
-//             //         openSeaLink: "https://opensea.io/assets/ethereum/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/1",
-//             //     },
-//             //     {
-//             //         nftImage: "https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi",
-//             //         originalAddress: "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
-//             //         fractionAddress: "0xe482247E3C9087b22106B03e03d0cbeB35F5d958",
-//             //         tokenID: "9",
-//             //         fractionCount: "15",
-//             //         openSeaLink: "https://opensea.io/assets/ethereum/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/1",
-//             //     },
-//             //     {
-//             //         nftImage: "https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi",
-//             //         originalAddress: "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
-//             //         fractionAddress: "0xe482247E3C9087b22106B03e03d0cbeB35F5d958",
-//             //         tokenID: "10",
-//             //         fractionCount: "15",
-//             //         openSeaLink: "https://opensea.io/assets/ethereum/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/1",
-//             //     },
-//             //     {
-//             //         nftImage: "https://ipfs.io/ipfs/QmPbxeGcXhYQQNgsC6a36dDyYUcHgMLnGKnF8pVFmGsvqi",
-//             //         originalAddress: "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
-//             //         fractionAddress: "0xe482247E3C9087b22106B03e03d0cbeB35F5d958",
-//             //         tokenID: "11",
-//             //         fractionCount: "15",
-//             //         openSeaLink: "https://opensea.io/assets/ethereum/0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d/1",
-//             //     }
-//             // ]
-//         },
-//     }
-// }
 
 export default Trade;
