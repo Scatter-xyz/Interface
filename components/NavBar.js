@@ -10,6 +10,8 @@ const Navbar = ({pageLoad='Default', setWalletContext}) => {
         address: '',
         signer: '',
         errorCode: '',
+        signedStakingContract: '',
+        signedTokenAddress: '',
         loading:true,
     });
 
@@ -41,7 +43,9 @@ const Navbar = ({pageLoad='Default', setWalletContext}) => {
     return (
         <div className="p-2 fixed top-0 border-b-2 border-emerald-900 bg-gin-50 w-full z-20 h-content">
             <nav className="flex items-center space-x-6">
-                <a href='/' className="font-serif w-32 border-r-2 border-black px-3 py-3 text-greenKelp-500 hover:text-emerald-700 text-2xl font-bold">Scatter</a>
+                <Link href="/">
+                    <a className="font-serif w-32 border-r-2 border-black px-3 py-3 text-greenKelp-500 hover:text-emerald-700 text-2xl font-bold">Scatter</a>
+                </Link>
                 {[
                     ['Fractionalise', '/fractionalise', true],
                     ['Trade', '/trade', true],
