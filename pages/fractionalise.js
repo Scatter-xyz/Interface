@@ -1,5 +1,3 @@
-import axios from 'axios';
-import Image from 'next/image';
 import Navbar from '../components/NavBar'
 import { ethers } from 'ethers';
 import { useEffect, useReducer, useState } from 'react';
@@ -66,7 +64,7 @@ const FractionCard = ({walletNFTsList = [], walletContext}) => {
                             walletNFTsList.map((data) => 
                                 <div className="rounded-lg shadow-lg bg-white max-w-sm" key={data.originalAddress + "-" + data.tokenID}>
                                     <div className="m-h-60">
-                                        <Image className="rounded-t-lg" src={data.nftImage} alt=""/>
+                                        <img className="rounded-t-lg" src={data.nftImage} alt=""/>
                                     </div>
                                     <div className="p-6">
                                         <div className="flex flex-row">
