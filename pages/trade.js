@@ -77,16 +77,17 @@ const Trade = () => {
         if(response.status === 200) {
             let data = await response.json();
             await data.data.tokens.map(async (token) => {
-                
-                fractionData.push({
-                    nftImage: token.tokenURI,
-                    originalAddress: token.originalContract,
-                    fractionAddress: token.fractionContract,
-                    tokenID: token.tokenId,
-                    fractionCount: token.fractionCount,
-                    openSeaLink: OPENSEA_LINK + token.fractionContract + '/' + token.tokenId,
-                    id:token.id
-                });
+                if(token.fractionCount !== '0') {
+                    fractionData.push({
+                        nftImage: token.tokenURI,
+                        originalAddress: token.originalContract,
+                        fractionAddress: token.fractionContract,
+                        tokenID: token.tokenId,
+                        fractionCount: token.fractionCount,
+                        openSeaLink: OPENSEA_LINK + token.fractionContract + '/' + token.tokenId,
+                        id:token.id
+                    });
+                }
             });
         }
         setFractionData(fractionData);
