@@ -23,12 +23,14 @@ exports.modules = {
 
 
 
-const Navbar = ({ pageLoad ="DEFAULT" , setWalletContext  })=>{
+const Navbar = ({ pageLoad ="Default" , setWalletContext  })=>{
     const { 0: wallet , 1: setWallet  } = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)({
         provider: "",
         address: "",
         signer: "",
         errorCode: "",
+        signedStakingContract: "",
+        signedTokenAddress: "",
         loading: true
     });
     const connect = async (wallet)=>{
@@ -60,7 +62,10 @@ const Navbar = ({ pageLoad ="DEFAULT" , setWalletContext  })=>{
         setWalletContext(localwallet);
     };
     (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(()=>{
-        if (pageLoad !== "DEFAULT") {
+        if (![
+            "Default",
+            "Trade"
+        ].includes(pageLoad)) {
             connectWallet(wallet);
         }
     }, []);
@@ -71,8 +76,10 @@ const Navbar = ({ pageLoad ="DEFAULT" , setWalletContext  })=>{
             children: [
                 /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((next_link__WEBPACK_IMPORTED_MODULE_2___default()), {
                     href: "/",
-                    className: " font-serif w-32 border-r-2 border-black px-3 py-3 text-greenKelp-500 hover:text-emerald-700 text-2xl font-bold",
-                    children: "Scatter"
+                    children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("a", {
+                        className: "font-serif w-32 border-r-2 border-black px-3 py-3 text-greenKelp-500 hover:text-emerald-700 text-2xl font-bold",
+                        children: "Scatter"
+                    })
                 }),
                 [
                     [
@@ -95,7 +102,7 @@ const Navbar = ({ pageLoad ="DEFAULT" , setWalletContext  })=>{
                         "/ifos",
                         false
                     ], 
-                ].map(([title, url, active])=>/*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((next_link__WEBPACK_IMPORTED_MODULE_2___default()), {
+                ].map(([title, url, active])=>/*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("a", {
                         href: active ? url : "",
                         className: `px-3 py-3 text-l font-semibold ${active ? "hover:border-b-2 hover:border-emerald-500 text-emerald-900 text-slate-700 hover:text-slate-900" : "rounded text-zinc-400 cursor-not-allowed disabled"} ${pageLoad === title ? "border-b-2 border-emerald-500" : ""}`,
                         children: title
@@ -104,7 +111,10 @@ const Navbar = ({ pageLoad ="DEFAULT" , setWalletContext  })=>{
                     className: "flex-1",
                     children: " "
                 }),
-                pageLoad !== "DEFAULT" ? wallet.loading ? "" : wallet.error === "METAMASK_NOT_INSTALLED" ? /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("button", {
+                ![
+                    "Default",
+                    "Trade"
+                ].includes(pageLoad) ? wallet.loading ? "" : wallet.error === "METAMASK_NOT_INSTALLED" ? /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("button", {
                     onClick: ()=>connectWallet(wallet),
                     className: "rounded bg-emerald-900 hover:bg-emerald-700 text-white px-3 py-3 text-slate-700 text-base font-normal",
                     children: " Connect To Metamask"
@@ -131,6 +141,7 @@ const Navbar = ({ pageLoad ="DEFAULT" , setWalletContext  })=>{
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Mt": () => (/* binding */ ERC_721),
 /* harmony export */   "Pt": () => (/* binding */ MAX_FRACTION_COUNT),
+/* harmony export */   "i9": () => (/* binding */ OPENSEA_LINK),
 /* harmony export */   "pc": () => (/* binding */ METAMASK_NOT_INSTALLED),
 /* harmony export */   "tm": () => (/* binding */ FRACTION_CONTRACT_ADDRESS)
 /* harmony export */ });
@@ -142,7 +153,9 @@ const NFT_CALL_FAILED = "NFT_CALL_FAILED";
 const ERC_721 = "ERC721";
 //Fraction Count
 const MAX_FRACTION_COUNT = 10000;
-const FRACTION_CONTRACT_ADDRESS = "0x56b91ca97af058c0837c39b5c08d796077001238";
+const FRACTION_CONTRACT_ADDRESS = "0xb56088B79B55F6AEe89FE53B6d4b672e8bA2dA5F";
+//Opensea Details
+const OPENSEA_LINK = "https://testnets.opensea.io/assets/rinkeby/";
 
 
 /***/ }),

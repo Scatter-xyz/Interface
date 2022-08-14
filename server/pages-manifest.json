@@ -5,8 +5,8 @@
   "/api/hello": "pages/api/hello.js",
   "/fractionalise": "pages/fractionalise.html",
   "/": "pages/index.html",
+  "/merge": "pages/merge.html",
+  "/trade": "pages/trade.html",
   "/_document": "pages/_document.js",
-  "/merge": "pages/merge.js",
-  "/trade": "pages/trade.js",
   "/404": "pages/404.html"
 }
