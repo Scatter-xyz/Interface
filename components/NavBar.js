@@ -52,6 +52,14 @@ const BurgerMenu = ({setBurgerMenu, pageLoad}) => {
     )
 }
 
+const FaucetBar = () => {
+    return (
+        <div className="w-full h-8 md:h-10 border-2 border-stiletto-700 bg-stiletto-600 flex flex-row justify-center items-center">
+            <div className="text-white text-[10px] md:text-[12px] font-normal md:font-semibold">To Mint Testnet NFTs <Link href="/faucet"><button className="rounded-full mx-2 px-2 md:px-3 py-1 bg-white text-stiletto-600 hover:bg-stiletto-700 hover:text-white font-semibold md:font-bold">Click Here</button></Link></div>
+        </div>
+    )
+}
+
 const Navbar = ({pageLoad='Default', setWalletContext}) => {
 
     const [wallet,setWallet] = useState({
@@ -102,8 +110,13 @@ const Navbar = ({pageLoad='Default', setWalletContext}) => {
                 pageLoad !== 'Default' ? <PopulateBottomNav pageLoad={pageLoad}/> : ''
             }
         </div>
-        <div className="p-2 fixed top-0 border-b-2 border-emerald-900 bg-gin-100 w-full z-20 h-content">
-            <nav className="flex items-center space-x-6">
+        <div className="fixed top-0 border-b-2 border-emerald-900 bg-gin-100 w-full z-20 h-content">
+            <div>
+                {
+                    !['Default','Faucet'].includes(pageLoad) ? <FaucetBar /> : ''
+                }
+            </div>
+            <nav className="m-2 flex items-center space-x-6">
                 <Link href="/">
                     <a className="font-serif w-32 lg:border-r-2 border-black px-3 py-3 text-greenKelp-500 hover:text-emerald-700 text-2xl font-bold">Scatter</a>
                 </Link>

@@ -1,6 +1,6 @@
 import Navbar from '../components/NavBar';
 import { useState, useEffect } from 'react';
-import { FooterData } from '.';
+import { BottomBar } from '.';
 import { ethers } from 'ethers';
 import { OPENSEA_LINK,FRACTION_CONTRACT_ADDRESS } from '../constants/constants';
 import contractABI from '../public/fractionABI.json';
@@ -20,7 +20,7 @@ var requestOptions = (FETCH_TYPE) => {
 
 function FETCH_OWNER_FRAC_NFTS(owner) {
     let jsonData = JSON.stringify({
-        query: `{\n  tokens(first: 20) {\n    id\n    tokenId\n    owner\n    fractionContract\n    tokenURI\n originalContract\n    fractionCount\n  }\n}\n`,
+        query: `{\n  tokens(where: { fractionCount_gt: 0}) {\n    id\n    tokenId\n    owner\n    fractionContract\n    tokenURI\n originalContract\n    fractionCount\n  }\n}\n`,
         variables: {}
         })
     return  jsonData;
@@ -73,7 +73,7 @@ const MergeCard = ({nftData={}, walletContext}) => {
             availableFractionCount = fetchFractionCount();
         }
         availableFractionCount = await fetchFractionCount();
-        
+
         let nftImage = nftMeta.image.replace('ipfs://','https://ipfs.io/ipfs/');
         setdata({...data, availableFractionCount: availableFractionCount, nftImage:nftImage, imageLoading:false});
     }
@@ -81,7 +81,6 @@ const MergeCard = ({nftData={}, walletContext}) => {
     useEffect(() => {
         fetchImageSrc();
     },[]);
-
     
     return (
         <>
@@ -89,11 +88,11 @@ const MergeCard = ({nftData={}, walletContext}) => {
                 <div>
                 {
                     data.imageLoading ? (
-                    <div className="animate-pulse flex items-center justify-center h-60 w-72 md:h-60 md:w-60 lg:h-72 lg:w-72">
-                        <svg className="h-52 w-60 md:h-52 md:w-52 lg:h-60 lg:w-60 rounded-lg bg-gray-200" viewBox="0 0 24 24"/>
+                    <div className="animate-pulse flex items-center justify-center h-72 w-80 md:h-80 md:w-80 lg:h-72 lg:w-72">
+                        <svg className="h-64 w-72 md:h-72 md:w-72 lg:h-64 lg:w-64 rounded-lg bg-gray-200" viewBox="0 0 24 24"/>
                     </div>
                     ) : (
-                        <img className="rounded-t-lg h-60 w-72 md:h-60 md:w-60 lg:h-72 lg:w-72" src={data.nftImage} alt=""/>
+                        <img className="rounded-t-lg h-72 w-80 md:h-80 md:w-80 lg:h-72 lg:w-72" src={data.nftImage} alt=""/>
                     ) 
                 }
                 </div>
@@ -174,8 +173,8 @@ const Merge = () => {
     return (   
         <div className="w-full min-h-content bg-gin-50">
             <Navbar pageLoad="Merge" setWalletContext={setWalletContext}/>  
-            <div className="pt-10 min-h-screen z-10 w-full">
-                <div className="pt-20 z-0 w-full">
+            <div className="min-h-screen z-10 w-full py-10">
+                <div className="pt-28 z-0 w-full">
                     <div className="flex flex-rows justify-center w-full">
                         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-6 lg:gap-10 xl:gap-12">
                             {
@@ -187,6 +186,7 @@ const Merge = () => {
                     </div>
                 </div>
             </div>
+            {/* <BottomBar /> */}
         </div>
     )
 }
