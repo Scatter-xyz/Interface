@@ -84,7 +84,7 @@ const FractionCard = ({walletNFTsList = [], walletContext}) => {
                                             </div>
                                         </div>
                                         <div className="h-full w-full">
-                                            <button onClick={() => fractionalise()} type="button"  className="rounded-b-lg font-sans w-full py-4 bg-stiletto-500 hover:bg-stiletto-600 text-white font-semibold md:text-sm text-lg lg:text-xl">Trade On Opensea</button>
+                                            <button onClick={() => fractionalise({key: (data.originalAddress + "-" + data.tokenID), contractAddress: data.originalAddress, tokenID: data.tokenID})} type="button"  className="rounded-b-lg font-sans w-full py-4 bg-stiletto-500 hover:bg-stiletto-600 text-white font-semibold md:text-sm text-lg lg:text-xl">Fractionalise</button>
                                         </div>
                                     </div>
                                 </div>

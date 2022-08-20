@@ -27,7 +27,7 @@ function FETCH_OWNER_FRAC_NFTS(owner) {
 }
 
 const MergeCard = ({nftData={}, walletContext}) => {
-    const[data,setdata] = useState(nftData);
+    const[data,setdata] = useState({...nftData, imageLoading:true});
 
     const fetchFractionCount = async () => {
         const fractionalAddress = new ethers.Contract(data.fractionAddress, ERC1155ABI, walletContext.provider);
@@ -73,10 +73,9 @@ const MergeCard = ({nftData={}, walletContext}) => {
             availableFractionCount = fetchFractionCount();
         }
         availableFractionCount = await fetchFractionCount();
-
-        console.log("Fraction Count: ", availableFractionCount);
-
-        setdata({...data, availableFractionCount: availableFractionCount, nftImage: nftMeta.image.replace('ipfs://','https://ipfs.io/ipfs/')});
+        
+        let nftImage = nftMeta.image.replace('ipfs://','https://ipfs.io/ipfs/');
+        setdata({...data, availableFractionCount: availableFractionCount, nftImage:nftImage, imageLoading:false});
     }
 
     useEffect(() => {
@@ -87,8 +86,16 @@ const MergeCard = ({nftData={}, walletContext}) => {
     return (
         <>
             <div className="rounded-lg shadow-lg bg-white w-fit mb-0" key={data.originalAddress + "-" + data.tokenID}>
-                <div className="m-h-60">
-                    <img className="rounded-t-lg h-60 w-72 md:h-60 md:w-60 lg:h-72 lg:w-72" src={data.nftImage} alt=""/>
+                <div>
+                {
+                    data.imageLoading ? (
+                    <div className="animate-pulse flex items-center justify-center h-60 w-72 md:h-60 md:w-60 lg:h-72 lg:w-72">
+                        <svg className="h-52 w-60 md:h-52 md:w-52 lg:h-60 lg:w-60 rounded-lg bg-gray-200" viewBox="0 0 24 24"/>
+                    </div>
+                    ) : (
+                        <img className="rounded-t-lg h-60 w-72 md:h-60 md:w-60 lg:h-72 lg:w-72" src={data.nftImage} alt=""/>
+                    ) 
+                }
                 </div>
                 <div className="w-content">
                     <div className="px-4 py-2 lg:py-4">
