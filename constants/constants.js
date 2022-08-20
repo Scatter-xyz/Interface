@@ -14,3 +14,8 @@ export const FRACTION_CONTRACT_ADDRESS = "0xb56088B79B55F6AEe89FE53B6d4b672e8bA2
 
 //Opensea Details
 export const OPENSEA_LINK = "https://testnets.opensea.io/assets/rinkeby/"
+
+//Social Media Handles
+export const TWITTER_LINK = "https://twitter.com/tryscatterxyz?s=11&t=hyIpfRdZV0OGHvouJEFPIg";
+export const DISCORD_LINK = "";
+export const GITHUB_LINK = "https://github.com/Scatter-xyz";
