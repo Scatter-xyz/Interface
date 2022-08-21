@@ -73,10 +73,10 @@ export const BottomBar = () => {
 export const FooterData = () => {
   return (
     <div className="w-full h-content">
-        <div className="bg-greenKelp-500 grid place-items-center h-full pt-6 md:pt-10 xl:pt-14 pb-6 md:pb-8 xl:pb-12">
+        <div className="bg-greenKelp-500 grid place-items-center h-full pt-4 md:pt-6 xl:pt-8 pb-2 md:pb-4 xl:pb-6">
           <div>
-            <p className="text-center font-sans font-semibold text-white text-3xl md:text-5xl">Join our community</p>
-            <p className="text-center text-white text-sm md:text-lg xl:text-lg p-4 md:p-8 lg:p-10">Chat with the team and others in the community to learn more about dev.tryscatter.xyz and provide you feedback to help us serve the community better.</p>
+            <p className="text-center font-sans font-semibold text-white text-3xl sm:text-4xl md:text-5xl">Join our community</p>
+            <p className="text-center text-white text-base sm:text-xl xl:text-2xl x-20 p-4 md:p-6 lg:p-8">Chat with the team and others in the community to learn more about dev.tryscatter.xyz and provide you feedback to help us serve the community better.</p>
             <div className="flex justify-center flex-row">        
               
               <div className="rounded-lg h-20 w-24 sm:h-20 sm:w-36 md:h-32 md:w-48 lg:h-32 lg:w-48 xl:h-40 xl:w-64 m-2 md:m-6 xl:m-10 flex items-center justify-center bg-greenKelp-100 hover:bg-gin-400">
@@ -207,9 +207,8 @@ const ResourceVideo = () => {
       <div className="text-center text-greenKelp-400 px-4 font-bold tex-lg sm:text-xl md:text-2xl pb-2 lg:pb-4">A Beginner’s Guide to Understand the Scatter UI</div>
       <iframe className="rounded-lg border-4 border-greenKelp-400 my-4 w-[350px] h-[280px] sm:h-[400px] sm:w-[600px] md:h-[500px] md:w-[750px] lg:h-[550px] lg:w-[1000px]"
         src="https://www.youtube.com/embed/Kp4VOPONK6Y"
-        frameborder="0"
         allow="autoplay; encrypted-media"
-        allowfullscreen
+        allowFullScreen
         title="video"
       />{" "}
     </div>
