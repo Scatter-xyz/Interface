@@ -1,6 +1,6 @@
 import Navbar from '../components/NavBar';
 import { useState, useEffect } from 'react';
-import { FooterData } from '.';
+import { BottomBar } from '.';
 import { ethers } from 'ethers';
 import { OPENSEA_LINK,FRACTION_CONTRACT_ADDRESS } from '../constants/constants';
 import contractABI from '../public/fractionABI.json';
@@ -20,14 +20,14 @@ var requestOptions = (FETCH_TYPE) => {
 
 function FETCH_OWNER_FRAC_NFTS(owner) {
     let jsonData = JSON.stringify({
-        query: `{\n  tokens(first: 20) {\n    id\n    tokenId\n    owner\n    fractionContract\n    tokenURI\n originalContract\n    fractionCount\n  }\n}\n`,
+        query: `{\n  tokens(where: { fractionCount_gt: 0}) {\n    id\n    tokenId\n    owner\n    fractionContract\n    tokenURI\n originalContract\n    fractionCount\n  }\n}\n`,
         variables: {}
         })
     return  jsonData;
 }
 
 const MergeCard = ({nftData={}, walletContext}) => {
-    const[data,setdata] = useState(nftData);
+    const[data,setdata] = useState({...nftData, imageLoading:true});
 
     const fetchFractionCount = async () => {
         const fractionalAddress = new ethers.Contract(data.fractionAddress, ERC1155ABI, walletContext.provider);
@@ -74,47 +74,55 @@ const MergeCard = ({nftData={}, walletContext}) => {
         }
         availableFractionCount = await fetchFractionCount();
 
-        console.log("Fraction Count: ", availableFractionCount);
-
-        setdata({...data, availableFractionCount: availableFractionCount, nftImage: nftMeta.image.replace('ipfs://','https://ipfs.io/ipfs/')});
+        let nftImage = nftMeta.image.replace('ipfs://','https://ipfs.io/ipfs/');
+        setdata({...data, availableFractionCount: availableFractionCount, nftImage:nftImage, imageLoading:false});
     }
 
     useEffect(() => {
         fetchImageSrc();
     },[]);
-
     
     return (
         <>
-            <div className="rounded-lg shadow-lg bg-white max-w-sm" key={data.originalAddress + "-" + data.tokenID}>
-                <a href="#!">
-                <img className="rounded-t-lg" src={data.nftImage} alt=""/>
-                </a>
-                <div className="p-6">
-                    <div className="flex flex-row">
-                        <p className="text-emerald-700 text-sm font-semibold mb-2">Original Address: </p>
-                        <div className="flex-1" />
-                        <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://etherscan.io/address/${data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,6) + "..." + data.originalAddress.substring(data.originalAddress.length-6,data.originalAddress.length)} </a> 
+            <div className="rounded-lg shadow-lg bg-white w-fit mb-0" key={data.originalAddress + "-" + data.tokenID}>
+                <div>
+                {
+                    data.imageLoading ? (
+                    <div className="animate-pulse flex items-center justify-center h-72 w-80 md:h-80 md:w-80 lg:h-72 lg:w-72">
+                        <svg className="h-64 w-72 md:h-72 md:w-72 lg:h-64 lg:w-64 rounded-lg bg-gray-200" viewBox="0 0 24 24"/>
                     </div>
-                    <div className="flex flex-row">
-                        <p className="text-emerald-700 text-sm font-semibold mb-2">Fraction Address: </p>
-                        <div className="flex-1" />
-                        <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://rinkeby.etherscan.io//address/${data.fractionAddress}`} rel="noreferrer" target="_blank">{data.fractionAddress.substring(0,6) + "..." + data.fractionAddress.substring(data.fractionAddress.length-6,data.fractionAddress.length)}  </a>
+                    ) : (
+                        <img className="rounded-t-lg h-72 w-80 md:h-80 md:w-80 lg:h-72 lg:w-72" src={data.nftImage} alt=""/>
+                    ) 
+                }
+                </div>
+                <div className="w-content">
+                    <div className="px-4 py-2 lg:py-4">
+                        <div className="flex flex-row">
+                            <p className="text-emerald-700 text-sm font-semibold mb-2">Original Address: </p>
+                            <div className="flex-1" />
+                            <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://etherscan.io/address/${data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,2) + "..." + data.originalAddress.substring(data.originalAddress.length-4,data.originalAddress.length)} </a> 
+                        </div>
+                        <div className="flex flex-row">
+                            <p className="text-emerald-700 text-sm font-semibold mb-2">Fraction Address: </p>
+                            <div className="flex-1" />
+                            <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://rinkeby.etherscan.io//address/${data.fractionAddress}`} rel="noreferrer" target="_blank">{data.fractionAddress.substring(0,2) + "..." + data.fractionAddress.substring(data.fractionAddress.length-4,data.fractionAddress.length)}  </a>
+                        </div>
+                        <div className="flex flex-row">
+                            <p className="text-emerald-700 text-sm font-semibold mb-2">Token Id: </p>
+                            <div className="flex-1" />
+                            <p className="text-sm text-emerald-900">{data.tokenID}</p>
+                        </div>
+                        <div className="flex flex-row">
+                            <p className="text-emerald-700 text-sm font-semibold mb-2">Fractions:</p>
+                            <div className="flex-1" />
+                            <p className="text-sm text-emerald-900">{data.availableFractionCount}/{data.fractionCount} </p>
+                        </div>
                     </div>
-                    <div className="flex flex-row">
-                        <p className="text-emerald-700 text-sm font-semibold mb-2">Token Id: </p>
-                        <div className="flex-1" />
-                        <p className="text-sm text-emerald-900">{data.tokenID}</p>
-                    </div>
-                    <div className="flex flex-row">
-                        <p className="text-emerald-700 text-sm font-semibold mb-2">Fractions:</p>
-                        <div className="flex-1" />
-                        <p className="text-sm text-emerald-900">{data.availableFractionCount}/{data.fractionCount} </p>
-                    </div>
-                    <div className="relative grid place-items-center h-full mb-12 mt-12">
-                        {
-                            data.availableFractionCount === data.fractionCount ? <button onClick={() => mergeFraction()} className="absolute font-sans px-12 py-4 bg-stiletto-500 text-white font-semibold text-l uppercase rounded">Merge</button> : <button className="absolute font-sans px-12 py-4 bg-gray-400 text-white font-semibold text-l uppercase rounded" disabled>Insufficient Fractions</button>
-                        }
+                    <div className="h-full w-full">
+                    {
+                        data.availableFractionCount === data.fractionCount ? <button onClick={() => mergeFraction()} className="rounded-b-lg font-sans w-full py-4 bg-stiletto-500 hover:bg-stiletto-600 text-white font-semibold md:text-sm text-lg lg:text-xl">Merge</button> : <button className="rounded-b-lg font-sans w-full py-4 bg-gray-500 text-white font-semibold md:text-sm text-lg lg:text-xl" disabled>Insufficient Fractions</button>
+                    }
                     </div>
                 </div>
             </div>
@@ -165,18 +173,20 @@ const Merge = () => {
     return (   
         <div className="w-full min-h-content bg-gin-50">
             <Navbar pageLoad="Merge" setWalletContext={setWalletContext}/>  
-            <div className="pt-10 min-h-screen z-10">
-                <div className="p-20 z-0">
-                    <div className="grid grid-cols-3 gap-12">
-                        {
-                            ownerFractionData.map((data) => 
-                                <MergeCard key={data.id} nftData={data} walletContext={walletContext}/>
-                            )
-                        }
+            <div className="min-h-screen z-10 w-full py-10">
+                <div className="pt-28 z-0 w-full">
+                    <div className="flex flex-rows justify-center w-full">
+                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-6 lg:gap-10 xl:gap-12">
+                            {
+                                ownerFractionData.map((data) => 
+                                    <MergeCard key={data.id} nftData={data} walletContext={walletContext}/>
+                                )
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-            <FooterData />
+            {/* <BottomBar /> */}
         </div>
     )
 }
