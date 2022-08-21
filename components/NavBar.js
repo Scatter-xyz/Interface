@@ -26,10 +26,10 @@ const PopulateNav = ({pageLoad}) => {
 
 const PopulateBottomNav = ({pageLoad}) => {
     return (
-        <div className="rounded-[16px] m-auto flex flex-row justify-center items-center w-auto bg-stiletto-600 text-white border-2">
+        <div className="rounded-[16px] m-auto flex flex-row justify-center items-center w-auto bg-stiletto-600 text-white">
             {
                 navOptions.map(([title, url, active]) => (
-                    active ? <a key={title} href={active ? url : ''} className={`rounded-[16px] text-white px-4 py-2 md:px-6 md:py-3 text-sm md:text-base ${active ? 'hover:text-gray-100 text-white hover:text-slate-900' : 'rounded text-zinc-400 cursor-not-allowed disabled'} ${pageLoad === title ? 'font-semibold bg-stiletto-400' : 'font-base' }` }>{title}</a> : ''
+                    active ? <a key={title} href={active ? url : ''} className={`rounded-[16px] text-white px-4 py-3 text-semibold ${active ? 'hover:text-gray-100 text-white hover:text-slate-900' : 'rounded text-zinc-400 cursor-not-allowed disabled'} ${pageLoad === title ? 'font-bold bg-stiletto-400 border-stiletto-600 border-2' : 'font-semibold' }` }>{title}</a> : ''
             ))}
         </div>
     )
@@ -54,8 +54,8 @@ const BurgerMenu = ({setBurgerMenu, pageLoad}) => {
 
 const FaucetBar = () => {
     return (
-        <div className="w-full h-8 md:h-10 border-2 border-stiletto-700 bg-stiletto-600 flex flex-row justify-center items-center">
-            <div className="text-white text-[10px] md:text-[12px] font-normal md:font-semibold">To Mint Testnet NFTs <Link href="/faucet"><button className="rounded-full mx-2 px-2 md:px-3 py-1 bg-white text-stiletto-600 hover:bg-stiletto-700 hover:text-white font-semibold md:font-bold">Click Here</button></Link></div>
+        <div className="w-full h-10 border-b-2 border-stiletto-700 bg-stiletto-600 flex flex-row justify-center items-center">
+            <div className="text-white text-[12px] font-semibold">To Mint Testnet NFTs <Link href="/faucet"><button className="rounded-full mx-2 px-3 py-1 bg-white text-stiletto-600 hover:bg-stiletto-700 hover:text-white font-bold">Click Here</button></Link></div>
         </div>
     )
 }
@@ -105,7 +105,7 @@ const Navbar = ({pageLoad='Default', setWalletContext}) => {
             burgerMenu === true ? <BurgerMenu setBurgerMenu={setBurgerMenu} pageLoad={pageLoad}/> : ''
         }
         </div>
-        <div className="lg:invisible fixed flex flex-row justify-center bottom-0 mb-4 w-full">
+        <div className="lg:invisible fixed flex flex-row justify-center bottom-0 mb-2 w-full">
             {
                 pageLoad !== 'Default' ? <PopulateBottomNav pageLoad={pageLoad}/> : ''
             }

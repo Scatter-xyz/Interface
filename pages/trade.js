@@ -40,11 +40,11 @@ const TradeCard = ({nftData={}}) => {
             <div>
             {
                 data.imageLoading ? (
-                <div className="animate-pulse flex items-center justify-center h-72 w-80 md:h-80 md:w-80 lg:h-72 lg:w-72">
-                    <svg className="h-64 w-72 md:h-72 md:w-72 lg:h-64 lg:w-64 rounded-lg bg-gray-200" viewBox="0 0 24 24"/>
+                <div className="animate-pulse flex items-center justify-center h-80 w-80 md:h-80 md:w-80 lg:h-72 lg:w-72">
+                    <svg className="h-72 w-72 md:h-72 md:w-72 lg:h-64 lg:w-64 rounded-lg bg-gray-200" viewBox="0 0 24 24"/>
                 </div>
                 ) : (
-                <img className="rounded-t-lg h-72 w-80 md:h-80 md:w-80 lg:h-72 lg:w-72" src={data.nftImage} alt=""/>
+                <img className="rounded-t-lg h-80 w-80 md:h-80 md:w-80 lg:h-72 lg:w-72" src={data.nftImage} alt=""/>
                 ) 
             }
             </div>
@@ -126,9 +126,9 @@ const Trade = () => {
                     </div>
                 </div> */}
                 <div className="pt-4 lg:pt-10 min-h-screen z-0">
-                    <div className="pt-28 z-0 w-full py-10">
+                    <div className="pt-28 z-0 w-full pb-20 py-10">
                         <div className="flex flex-rows justify-center w-full">
-                            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-6 lg:gap-10 xl:gap-12">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-6 lg:gap-10 xl:gap-12">
                                 {
                                     fractionData.map((data) => 
                                         <TradeCard key={data.id} nftData={data} />
