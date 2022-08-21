@@ -2,7 +2,7 @@ import Navbar from '../components/NavBar'
 import { ethers } from 'ethers';
 import { useEffect, useReducer, useState } from 'react';
 import { BottomBar } from '.'
-import { ERC_721, MAX_FRACTION_COUNT, FRACTION_CONTRACT_ADDRESS } from '../constants/constants';
+import { ERC_721, MAX_FRACTION_COUNT, FRACTION_CONTRACT_ADDRESS, MUMBAI_CONTRACT_BASE_URL } from '../constants/constants';
 import contractABI from '../public/fractionABI.json';
 import ERC721ABI from '../public/ERC721ABI.json';
 
@@ -70,7 +70,7 @@ const FractionCard = ({walletNFTsList = [], walletContext}) => {
                                             <div className="flex flex-row">
                                                 <p className="text-emerald-700 text-sm font-semibold mb-2">Original Address: </p>
                                                 <div className="flex-1" />
-                                                <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://rinkeby.etherscan.io/address/${data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,2) + "..." + data.originalAddress.substring(data.originalAddress.length-4,data.originalAddress.length)} </a> 
+                                                <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${MUMBAI_CONTRACT_BASE_URL + data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,2) + "..." + data.originalAddress.substring(data.originalAddress.length-4,data.originalAddress.length)} </a> 
                                             </div>
                                             <div className="flex flex-row">
                                                 <p className="text-emerald-700 text-sm font-semibold mb-2">Token Id:</p>

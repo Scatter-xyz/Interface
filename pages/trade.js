@@ -1,6 +1,6 @@
 import Navbar from '../components/NavBar'
 import { BottomBar } from '.'
-import { OPENSEA_LINK } from '../constants/constants';
+import { OPENSEA_LINK, MUMBAI_CONTRACT_BASE_URL } from '../constants/constants';
 import { useEffect, useState } from 'react';
 
 var myHeaders = new Headers();
@@ -53,12 +53,12 @@ const TradeCard = ({nftData={}}) => {
                     <div className="flex flex-row">
                         <p className="text-emerald-700 text-sm font-semibold mb-2">Original Address: </p>
                         <div className="flex-1" />
-                        <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://etherscan.io/address/${data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,2) + "..." + data.originalAddress.substring(data.originalAddress.length-4,data.originalAddress.length)} </a> 
+                        <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${MUMBAI_CONTRACT_BASE_URL + data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,2) + "..." + data.originalAddress.substring(data.originalAddress.length-4,data.originalAddress.length)} </a> 
                     </div>
                     <div className="flex flex-row">
                         <p className="text-emerald-700 text-sm font-semibold mb-2">Fraction Address: </p>
                         <div className="flex-1" />
-                        <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://rinkeby.etherscan.io//address/${data.fractionAddress}`} rel="noreferrer" target="_blank">{data.fractionAddress.substring(0,2) + "..." + data.fractionAddress.substring(data.fractionAddress.length-4,data.fractionAddress.length)}  </a>
+                        <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${MUMBAI_CONTRACT_BASE_URL + data.fractionAddress}`} rel="noreferrer" target="_blank">{data.fractionAddress.substring(0,2) + "..." + data.fractionAddress.substring(data.fractionAddress.length-4,data.fractionAddress.length)}  </a>
                     </div>
                     <div className="flex flex-row">
                         <p className="text-emerald-700 text-sm font-semibold mb-2">Token Id:</p>

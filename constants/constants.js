@@ -15,7 +15,8 @@ export const FRACTION_CONTRACT_ADDRESS = "0xd4B71e9D524FB4925c8C3044b45f5FdABbad
 export const FAUCET_CONTRACT_ADDRESS = "0x7fF62C41a99DcF968395cC47eAa5014efD9b3A4b";
 
 //Opensea Details
-export const OPENSEA_LINK = "https://testnets.opensea.io/assets/rinkeby/"
+export const OPENSEA_LINK = "https://testnets.opensea.io/assets/mumbai/"
+export const MUMBAI_CONTRACT_BASE_URL = "https://mumbai.polygonscan.com/address/"
 
 //Social Media Handles
 export const TWITTER_LINK = "https://twitter.com/tryscatterxyz?s=11&t=hyIpfRdZV0OGHvouJEFPIg";
