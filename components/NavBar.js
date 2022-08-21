@@ -26,10 +26,10 @@ const PopulateNav = ({pageLoad}) => {
 
 const PopulateBottomNav = ({pageLoad}) => {
     return (
-        <div className="rounded-[16px] m-auto flex flex-row justify-center items-center w-auto bg-stiletto-600 text-white">
+        <div className="rounded-[16px] m-auto flex flex-row justify-center items-center w-auto bg-stiletto-600 border-2 border-stiletto-400 text-white">
             {
                 navOptions.map(([title, url, active]) => (
-                    active ? <a key={title} href={active ? url : ''} className={`rounded-[16px] text-white px-4 py-3 text-semibold ${active ? 'hover:text-gray-100 text-white hover:text-slate-900' : 'rounded text-zinc-400 cursor-not-allowed disabled'} ${pageLoad === title ? 'font-bold bg-stiletto-400 border-stiletto-600 border-2' : 'font-semibold' }` }>{title}</a> : ''
+                    active ? <a key={title} href={active ? url : ''} className={`rounded-[16px] text-white px-4 py-3 text-semibold ${active ? 'hover:text-gray-100 text-white hover:text-slate-900' : 'rounded text-zinc-400 cursor-not-allowed disabled'} ${pageLoad === title ? 'font-bold bg-stiletto-400' : 'font-semibold' }` }>{title}</a> : ''
             ))}
         </div>
     )
@@ -39,12 +39,12 @@ const BurgerMenu = ({setBurgerMenu, pageLoad}) => {
     return (
         <div className="absolute w-screen h-screen border-4 z-40 bg-gin-50">
             <div className="absolute right-0 mt-6 mr-4">
-                <img src="close.png" className="w-8 h-6" onClick={() => setBurgerMenu(false)}/>
+                <img src="close.png" className="w-8 h-7" onClick={() => setBurgerMenu(false)}/>
             </div>
             <div className="flex flex-col pt-20 pl-8">
                 {
                     navOptions.map(([title, url, active]) => (
-                        <a key={title} href={active ? url : ''} className="text-2xl md:text-4xl md:m-5 text-greenKelp-500 hover:text-greenKelp-100 m-1 font-bold">{title}</a>
+                        <a key={title} href={active ? url : ''} className="text-3xl md:text-4xl m-4 md:m-5 text-greenKelp-500 hover:text-greenKelp-100 m-1 font-bold">{title}</a>
                     ))
                 }
             </div>

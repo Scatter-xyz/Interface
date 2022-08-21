@@ -76,7 +76,7 @@ export const FooterData = () => {
         <div className="bg-greenKelp-500 grid place-items-center h-full pt-4 md:pt-6 xl:pt-8 pb-2 md:pb-4 xl:pb-6">
           <div>
             <p className="text-center font-sans font-semibold text-white text-3xl sm:text-4xl md:text-5xl">Join our community</p>
-            <p className="text-center text-white text-base sm:text-xl xl:text-2xl x-20 p-4 md:p-6 lg:p-8">Chat with the team and others in the community to learn more about dev.tryscatter.xyz and provide you feedback to help us serve the community better.</p>
+            <p className="text-center text-white text-sm sm:text-lg md:text-xl xl:text-2xl x-20 py-2 md:py-2 lg:py-4 mx-4 sm:mx-16 md:mx-28 lg:mx-40 xl:mx-60">Chat with the team and others in the community to learn more about dev.tryscatter.xyz and provide you feedback to help us serve the community better.</p>
             <div className="flex justify-center flex-row">        
               
               <div className="rounded-lg h-20 w-24 sm:h-20 sm:w-36 md:h-32 md:w-48 lg:h-32 lg:w-48 xl:h-40 xl:w-64 m-2 md:m-6 xl:m-10 flex items-center justify-center bg-greenKelp-100 hover:bg-gin-400">
