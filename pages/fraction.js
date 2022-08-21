@@ -109,7 +109,7 @@ function fetchNfts(owner, setNftsList) {
     redirect: 'follow'
     };
 
-    fetch(`https://eth-rinkeby.alchemyapi.io/v2/9QLQtE0COOGdYHOSbo43OOYPqZ_Fw2OM/getNFTs/?owner=${owner}`, requestOptions)
+    fetch(`https://polygon-mumbai.g.alchemy.com/v2/l0jLil9DtS2WsAcK8r9_bq7GBNrWHTFk/getNFTs/?owner=${owner}`, requestOptions)
     .then(response => response.json())
     .then(result => {
         result.ownedNfts.map((nft) => {

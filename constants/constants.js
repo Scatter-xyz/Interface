@@ -9,10 +9,10 @@ export const ERC_721 = "ERC721";
 
 //Fraction Count
 export const MAX_FRACTION_COUNT = 10000;
-export const FRACTION_CONTRACT_ADDRESS = "0xb56088B79B55F6AEe89FE53B6d4b672e8bA2dA5F";
+export const FRACTION_CONTRACT_ADDRESS = "0xd4B71e9D524FB4925c8C3044b45f5FdABbad976e";
 
 //Faucet Contract
-export const FAUCET_CONTRACT_ADDRESS = "0xaaf02aB9a24c0BE1D7ede365e20cD662061041Ba";
+export const FAUCET_CONTRACT_ADDRESS = "0x7fF62C41a99DcF968395cC47eAa5014efD9b3A4b";
 
 //Opensea Details
 export const OPENSEA_LINK = "https://testnets.opensea.io/assets/rinkeby/"
