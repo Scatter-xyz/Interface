@@ -92,7 +92,7 @@ const ConnectWalletButton = ({wallet, pageLoad, setWallet, setWalletContext}) =>
 
     const NetworkBar = () => {
         return (
-            <div className="rounded-[16px] flex flex-col items-start px-4 py-3 fixed mt-3 w-52 h-48 bg-slate-700 z-100"> 
+            <div className="border-2 border-slate-500 rounded-[16px] flex flex-col items-start mr-20 md:mr-0 px-4 py-2 fixed mt-3 w-48 sm:w-52 h-48 bg-slate-700 z-100"> 
                 <div className="text-gin-50 text-sm">Select a network</div>
                 <div className="flex flex-col items-start px-2 py-1">
                     {
@@ -124,19 +124,21 @@ const ConnectWalletButton = ({wallet, pageLoad, setWallet, setWalletContext}) =>
             !["Default","Trade"].includes(pageLoad) ? (wallet.loading ? '' : (wallet.errorCode === METAMASK_NOT_INSTALLED
             ? <button disabled className="rounded-lg md:rounded-[22px] bg-red-600 text-white px-3 py-3 sm:px-3 sm:py-3 text-[8px] sm:text-[10px] md:text-[12px] md:px-4 md:py-4 lg:px-5 lg:py-4 border-2 bored-red-800 lg:text-sm font-semibold"> Metamask Not Installed</button> 
             : ( 
-            <div className="flex flex rows">
-                {
-                    (wallet.errorCode === CHAINID_NOT_SUPPORTED) ? 
-                    <div>
-                        <button onClick={() => toggleNetworkBar(!networkBar)}  className=" flex flex-rows justify-center items-center md:rounded-[22px] bg-red-500 mx-2 px-3 py-3 text-sm fond-semibold text-white"><img src="warning.png" className="w-6 h-6 mr-1"  /> Switch Network { networkBar ? <svg xmlns="http://www.w3.org/2000/svg" className="fill-white w-8 h-2" viewBox="0 0 512 319.24"><path d="m5.9 270.28 43.07 43.07c7.86 7.86 20.73 7.84 28.56 0l178.48-178.48L434.5 313.35c7.86 7.86 20.74 7.82 28.56 0l43.07-43.07c7.83-7.84 7.83-20.72 0-28.56L313.72 49.32l-.36-.37-43.07-43.07c-7.83-7.82-20.7-7.86-28.56 0l-43.07 43.07-.36.37L5.9 241.72c-7.87 7.86-7.87 20.7 0 28.56z"/></svg> : <svg xmlns="http://www.w3.org/2000/svg" className="fill-white w-8 h-2"  viewBox="0 0 512.02 319.26"><path d="M5.9 48.96 48.97 5.89c7.86-7.86 20.73-7.84 28.56 0l178.48 178.48L434.5 5.89c7.86-7.86 20.74-7.82 28.56 0l43.07 43.07c7.83 7.84 7.83 20.72 0 28.56l-192.41 192.4-.36.37-43.07 43.07c-7.83 7.82-20.7 7.86-28.56 0l-43.07-43.07-.36-.37L5.9 77.52c-7.87-7.86-7.87-20.7 0-28.56z"/></svg>}</button> 
-                        { networkBar ? <NetworkBar /> : ''}
-                    </div> : 
-                    <div>
-                        <button onClick={() => toggleNetworkBar(!networkBar)}  className=" flex flex-rows justify-center items-center md:rounded-[22px] bg-slate-700 mx-2 px-4 py-2 text-base fond-semibold text-white"><img src={wallet.chain.image} className="w-6 h-6 mr-2"  /> {wallet.chain.name} { networkBar ? <svg xmlns="http://www.w3.org/2000/svg" className="fill-white w-8 h-2" viewBox="0 0 512 319.24"><path d="m5.9 270.28 43.07 43.07c7.86 7.86 20.73 7.84 28.56 0l178.48-178.48L434.5 313.35c7.86 7.86 20.74 7.82 28.56 0l43.07-43.07c7.83-7.84 7.83-20.72 0-28.56L313.72 49.32l-.36-.37-43.07-43.07c-7.83-7.82-20.7-7.86-28.56 0l-43.07 43.07-.36.37L5.9 241.72c-7.87 7.86-7.87 20.7 0 28.56z"/></svg> : <svg xmlns="http://www.w3.org/2000/svg" className="fill-white w-8 h-2"  viewBox="0 0 512.02 319.26"><path d="M5.9 48.96 48.97 5.89c7.86-7.86 20.73-7.84 28.56 0l178.48 178.48L434.5 5.89c7.86-7.86 20.74-7.82 28.56 0l43.07 43.07c7.83 7.84 7.83 20.72 0 28.56l-192.41 192.4-.36.37-43.07 43.07c-7.83 7.82-20.7 7.86-28.56 0l-43.07-43.07-.36-.37L5.9 77.52c-7.87-7.86-7.87-20.7 0-28.56z"/></svg>}</button> 
-                        { networkBar ? <NetworkBar /> : <> </> }
-                    </div>
-                }
-                <button disabled className="rounded-full border-2 border-teal-800 bg-neutral-700 text-white px-4 py-1 md:px-8 md:py-2.5 font-normal text-sm"> {wallet.address.substring(0,4) + '...' + wallet.address.substring(wallet.address.length - 4,wallet.address.length)}</button>
+            <div className="flex flex rows justify-center items-center">
+                <div>
+                    {
+                        (wallet.errorCode === CHAINID_NOT_SUPPORTED) ? 
+                        <div>
+                            <button onClick={() => toggleNetworkBar(!networkBar)}  className=" flex flex-rows justify-center items-center md:rounded-[22px] bg-red-500 md:mx-2 md:px-3 md:py-3 text-sm fond-semibold text-white"><img src="warning.png" className="w-6 h-6 mr-1"  /> Switch Network { networkBar ? <svg xmlns="http://www.w3.org/2000/svg" className="fill-white w-8 h-2" viewBox="0 0 512 319.24"><path d="m5.9 270.28 43.07 43.07c7.86 7.86 20.73 7.84 28.56 0l178.48-178.48L434.5 313.35c7.86 7.86 20.74 7.82 28.56 0l43.07-43.07c7.83-7.84 7.83-20.72 0-28.56L313.72 49.32l-.36-.37-43.07-43.07c-7.83-7.82-20.7-7.86-28.56 0l-43.07 43.07-.36.37L5.9 241.72c-7.87 7.86-7.87 20.7 0 28.56z"/></svg> : <svg xmlns="http://www.w3.org/2000/svg" className="fill-white w-8 h-2"  viewBox="0 0 512.02 319.26"><path d="M5.9 48.96 48.97 5.89c7.86-7.86 20.73-7.84 28.56 0l178.48 178.48L434.5 5.89c7.86-7.86 20.74-7.82 28.56 0l43.07 43.07c7.83 7.84 7.83 20.72 0 28.56l-192.41 192.4-.36.37-43.07 43.07c-7.83 7.82-20.7 7.86-28.56 0l-43.07-43.07-.36-.37L5.9 77.52c-7.87-7.86-7.87-20.7 0-28.56z"/></svg>}</button> 
+                            { networkBar ? <NetworkBar /> : ''}
+                        </div> : 
+                        <div>
+                            <button onClick={() => toggleNetworkBar(!networkBar)}  className=" flex flex-rows justify-center items-center rounded-[22px] bg-slate-700 mx-1 px-3 py-1 md:mx-2 md:px-4 md:py-2 text-base fond-semibold text-white"><img src={wallet.chain.image} className="w-6 h-6 mr-2"  /> <div className="invisible absolute md:visible md:relative mr-1 lg:mr-0"> {wallet.chain.name} </div> { networkBar ? <svg xmlns="http://www.w3.org/2000/svg" className="fill-white w-8 h-2" viewBox="0 0 512 319.24"><path d="m5.9 270.28 43.07 43.07c7.86 7.86 20.73 7.84 28.56 0l178.48-178.48L434.5 313.35c7.86 7.86 20.74 7.82 28.56 0l43.07-43.07c7.83-7.84 7.83-20.72 0-28.56L313.72 49.32l-.36-.37-43.07-43.07c-7.83-7.82-20.7-7.86-28.56 0l-43.07 43.07-.36.37L5.9 241.72c-7.87 7.86-7.87 20.7 0 28.56z"/></svg> : <svg xmlns="http://www.w3.org/2000/svg" className="fill-white w-8 h-2"  viewBox="0 0 512.02 319.26"><path d="M5.9 48.96 48.97 5.89c7.86-7.86 20.73-7.84 28.56 0l178.48 178.48L434.5 5.89c7.86-7.86 20.74-7.82 28.56 0l43.07 43.07c7.83 7.84 7.83 20.72 0 28.56l-192.41 192.4-.36.37-43.07 43.07c-7.83 7.82-20.7 7.86-28.56 0l-43.07-43.07-.36-.37L5.9 77.52c-7.87-7.86-7.87-20.7 0-28.56z"/></svg>}</button> 
+                            { networkBar ? <NetworkBar /> : <> </> }
+                        </div>
+                    }
+                </div>
+                <button disabled className="rounded-full border-2 border-teal-800 bg-slate-800 text-white px-4 py-1 md:px-6 md:py-2 font-normal text-sm"> {wallet.address.substring(0,4) + '...' + wallet.address.substring(wallet.address.length - 4,wallet.address.length)}</button>
             </div>))) : ''
         }
         </>
@@ -214,11 +216,11 @@ const Navbar = ({pageLoad='Default', setWalletContext}) => {
                     !['Default','Faucet'].includes(pageLoad) ? <FaucetBar /> : ''
                 }
             </div>
-            <nav className="m-2 flex items-center space-x-6">
+            <nav className="border-4 m-1 md:m-2 flex items-center space-x-1 lg:space-x-6">
                 <Link href="/">
-                    <a className="font-serif w-32 lg:border-r-2 border-black px-3 py-3 text-greenKelp-500 hover:text-emerald-700 text-2xl font-bold">Scatter</a>
+                    <a className="font-serif w-32 lg:border-r-2 border-black md:px-3 md:py-3 text-greenKelp-500 hover:text-emerald-700 text-lg md:text-2xl font-semibold md:font-bold">Scatter</a>
                 </Link>
-                <div className="invisible lg:visible min-w-0">
+                <div className="invisible absolute lg:relative lg:visible min-w-0">
                     {
                         <PopulateNav pageLoad={pageLoad}/>
                     }
