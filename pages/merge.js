@@ -180,7 +180,13 @@ const Merge = () => {
                                 <a className="rounded-lg bg-stiletto-500 text-white py-4 px-6 md:py-8 md:px-8 text-base md:text-lg font-bold hover:bg-stiletto-400" href="https://metamask.io/" rel="noreferrer" target="_blank"> Install Metamask </a>
                             </div>
                         </>
-                    ) : (
+                    ) : ( (walletContext && !walletContext.loading && walletContext.errorCode === CHAINID_NOT_SUPPORTED) ? (
+                    <>
+                        <div className="h-screen w-full bg-gin-50">
+                        </div> 
+                    </>
+                    ) : 
+                    (
                         <div className="pt-28 z-0 w-full">
                             <div className="flex flex-rows justify-center w-full">
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-6 lg:gap-10 xl:gap-12">
@@ -192,6 +198,7 @@ const Merge = () => {
                                 </div>
                             </div>
                         </div>
+                    )
                     )
                 }
             </div>

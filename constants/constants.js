@@ -22,3 +22,31 @@ export const MUMBAI_CONTRACT_BASE_URL = "https://mumbai.polygonscan.com/address/
 export const TWITTER_LINK = "https://twitter.com/tryscatterxyz?s=11&t=hyIpfRdZV0OGHvouJEFPIg";
 export const DISCORD_LINK = "";
 export const GITHUB_LINK = "https://github.com/Scatter-xyz";
+
+//Supported Chains
+export const SUPPORTED_CHAINS = [
+    {
+        name: "Ethereum",
+        chainId: 1,
+        image: "ethereum-eth-logo.png",
+        active: false
+    },
+    {
+        name: "Polygon",
+        chainId: 80001,
+        image: "polygon-matic-logo.png",
+        active: true
+    },
+    {
+        name: "Celo",
+        chainId: 42220,
+        image: "celo-celo-logo.png",
+        active: false
+    },
+    {
+        name: "Aurora",
+        chainId: 1313161554,
+        image: "aurora-aoa-logo.png",
+        active: false
+    }
+];

@@ -149,14 +149,20 @@ const Fractionalise = () => {
                 {
                     (walletContext && !walletContext.loading && walletContext.errorCode === METAMASK_NOT_INSTALLED) ? (
                         <>
-                            <div className="h-screen w-full bg-gin-50 flex items-center justify-center">
+                            <div className="h-screen w-full bg-gin-50 flex items-center justify-center my-10">
                                 <a className="rounded-lg bg-stiletto-500 text-white py-4 px-6 md:py-8 md:px-8 text-base md:text-lg font-bold hover:bg-stiletto-400" href="https://metamask.io/" rel="noreferrer" target="_blank"> Install Metamask </a>
                             </div>
                         </>
-                    ) : (
+                    ) : ( (walletContext && !walletContext.loading && walletContext.errorCode === CHAINID_NOT_SUPPORTED) ? (
+                        <>
+                            <div className="h-screen w-full bg-gin-50">
+                            </div> 
+                        </>
+                        ) : (
                         <div className="pb-20 py-10 min-h-screen z-10 w-full">
                             <FractionCard walletNFTsList={nftsList}  walletContext={walletContext}/>
                         </div>
+                        )
                     )
                 }
             </div>
