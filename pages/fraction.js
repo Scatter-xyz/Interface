@@ -2,9 +2,10 @@ import Navbar from '../components/NavBar'
 import { ethers } from 'ethers';
 import { useEffect, useReducer, useState } from 'react';
 import { BottomBar } from '.'
-import { ERC_721, MAX_FRACTION_COUNT, FRACTION_CONTRACT_ADDRESS } from '../constants/constants';
+import { ERC_721, MAX_FRACTION_COUNT, FRACTION_CONTRACT_ADDRESS, MUMBAI_CONTRACT_BASE_URL } from '../constants/constants';
 import contractABI from '../public/fractionABI.json';
 import ERC721ABI from '../public/ERC721ABI.json';
+import { METAMASK_NOT_INSTALLED, CHAINID_NOT_SUPPORTED } from "../constants/constants";
 
 const maxFractionCount = MAX_FRACTION_COUNT;
 
@@ -58,19 +59,19 @@ const FractionCard = ({walletNFTsList = [], walletContext}) => {
         <>
             <div className="pt-28 z-0 w-full">
                 <div className="flex flex-rows justify-center w-full">
-                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-6 lg:gap-10 xl:gap-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-6 lg:gap-10 xl:gap-12">
                         {
                             walletNFTsList.map((data) => 
                                 <div className="rounded-lg shadow-lg bg-white w-fit mb-0" key={data.originalAddress + "-" + data.tokenID}>
                                     <div className="m-h-60">
-                                        <img className="rounded-t-lg h-72 w-80 md:h-80 md:w-80 lg:h-72 lg:w-72" src={data.nftImage} alt=""/>
+                                        <img className="rounded-t-lg h-80 w-80 md:h-80 md:w-80 lg:h-72 lg:w-72" src={data.nftImage} alt=""/>
                                     </div>
                                     <div>
                                         <div className="px-4 py-2 lg:py-4">
                                             <div className="flex flex-row">
                                                 <p className="text-emerald-700 text-sm font-semibold mb-2">Original Address: </p>
                                                 <div className="flex-1" />
-                                                <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`https://rinkeby.etherscan.io/address/${data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,2) + "..." + data.originalAddress.substring(data.originalAddress.length-4,data.originalAddress.length)} </a> 
+                                                <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${MUMBAI_CONTRACT_BASE_URL + data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,2) + "..." + data.originalAddress.substring(data.originalAddress.length-4,data.originalAddress.length)} </a> 
                                             </div>
                                             <div className="flex flex-row">
                                                 <p className="text-emerald-700 text-sm font-semibold mb-2">Token Id:</p>
@@ -109,7 +110,7 @@ function fetchNfts(owner, setNftsList) {
     redirect: 'follow'
     };
 
-    fetch(`https://eth-rinkeby.alchemyapi.io/v2/9QLQtE0COOGdYHOSbo43OOYPqZ_Fw2OM/getNFTs/?owner=${owner}`, requestOptions)
+    fetch(`https://polygon-mumbai.g.alchemy.com/v2/l0jLil9DtS2WsAcK8r9_bq7GBNrWHTFk/getNFTs/?owner=${owner}`, requestOptions)
     .then(response => response.json())
     .then(result => {
         result.ownedNfts.map((nft) => {
@@ -135,8 +136,8 @@ const Fractionalise = () => {
     const[nftsList, setNftsList] = useState([]);
 
     useEffect(() => {
-
-        if(walletContext && !walletContext.error) {
+        if(walletContext && walletContext.errorCode === METAMASK_NOT_INSTALLED) {
+        } else if(walletContext && walletContext.errorCode) {
             fetchNfts(walletContext.address, setNftsList);
         }
     },[walletContext]);
@@ -145,9 +146,25 @@ const Fractionalise = () => {
         <>
             <Navbar pageLoad='Fraction' setWalletContext={setWalletContext}/>
             <div className="w-full min-h-content bg-gin-50">
-                <div className="py-10 min-h-screen z-10 w-full">
-                    <FractionCard walletNFTsList={nftsList}  walletContext={walletContext}/>
-                </div>
+                {
+                    (walletContext && !walletContext.loading && walletContext.errorCode === METAMASK_NOT_INSTALLED) ? (
+                        <>
+                            <div className="h-screen w-full bg-gin-50 flex items-center justify-center my-10">
+                                <a className="rounded-lg bg-stiletto-500 text-white py-4 px-6 md:py-8 md:px-8 text-base md:text-lg font-bold hover:bg-stiletto-400" href="https://metamask.io/" rel="noreferrer" target="_blank"> Install Metamask </a>
+                            </div>
+                        </>
+                    ) : ( (walletContext && !walletContext.loading && walletContext.errorCode === CHAINID_NOT_SUPPORTED) ? (
+                        <>
+                            <div className="h-screen w-full bg-gin-50">
+                            </div> 
+                        </>
+                        ) : (
+                        <div className="pb-20 py-10 min-h-screen z-10 w-full">
+                            <FractionCard walletNFTsList={nftsList}  walletContext={walletContext}/>
+                        </div>
+                        )
+                    )
+                }
             </div>
             {/* <BottomBar /> */}
         </>
