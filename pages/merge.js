@@ -2,7 +2,7 @@ import Navbar from '../components/NavBar';
 import { useState, useEffect } from 'react';
 import { BottomBar } from '.';
 import { ethers } from 'ethers';
-import { OPENSEA_LINK,FRACTION_CONTRACT_ADDRESS, MUMBAI_CONTRACT_BASE_URL } from '../constants/constants';
+import { OPENSEA_LINK,FRACTION_CONTRACT_ADDRESS, MUMBAI_CONTRACT_BASE_URL, METAMASK_NOT_INSTALLED, CHAINID_NOT_SUPPORTED } from '../constants/constants';
 import contractABI from '../public/fractionABI.json';
 import ERC1155ABI from '../public/ERC1155ABI.json';
 
@@ -162,7 +162,9 @@ const Merge = () => {
     const[ownerFractionData, setOwnerFractionData] = useState([]);
 
     useEffect(() => {
-        if(walletContext && !walletContext.error) {
+        if(walletContext && walletContext.errorCode === METAMASK_NOT_INSTALLED) {
+            console.log("Fraction and metamask not installed!!");
+        } else if(walletContext && !walletContext.errorCode) {
             fetchAllFractionData(walletContext.address, setOwnerFractionData);
         }
     },[walletContext]);
@@ -171,17 +173,27 @@ const Merge = () => {
         <div className="w-full min-h-content bg-gin-50">
             <Navbar pageLoad="Merge" setWalletContext={setWalletContext}/>  
             <div className="min-h-screen z-10 w-full pb-20 py-10">
-                <div className="pt-28 z-0 w-full">
-                    <div className="flex flex-rows justify-center w-full">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-6 lg:gap-10 xl:gap-12">
-                            {
-                                ownerFractionData.map((data) => 
-                                    <MergeCard key={data.id} nftData={data} walletContext={walletContext}/>
-                                )
-                            }
+                {
+                    (walletContext && !walletContext.loading && walletContext.errorCode === METAMASK_NOT_INSTALLED) ? (
+                        <>
+                            <div className="h-screen w-full bg-gin-50 flex items-center justify-center">
+                                <a className="rounded-lg bg-stiletto-500 text-white py-4 px-6 md:py-8 md:px-8 text-base md:text-lg font-bold hover:bg-stiletto-400" href="https://metamask.io/" rel="noreferrer" target="_blank"> Install Metamask </a>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="pt-28 z-0 w-full">
+                            <div className="flex flex-rows justify-center w-full">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-6 lg:gap-10 xl:gap-12">
+                                    {
+                                        ownerFractionData.map((data) => 
+                                            <MergeCard key={data.id} nftData={data} walletContext={walletContext}/>
+                                        )
+                                    }
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    )
+                }
             </div>
             {/* <BottomBar /> */}
         </div>

@@ -5,6 +5,7 @@ import { BottomBar } from '.'
 import { ERC_721, MAX_FRACTION_COUNT, FRACTION_CONTRACT_ADDRESS, MUMBAI_CONTRACT_BASE_URL } from '../constants/constants';
 import contractABI from '../public/fractionABI.json';
 import ERC721ABI from '../public/ERC721ABI.json';
+import { METAMASK_NOT_INSTALLED, CHAINID_NOT_SUPPORTED } from "../constants/constants";
 
 const maxFractionCount = MAX_FRACTION_COUNT;
 
@@ -135,8 +136,8 @@ const Fractionalise = () => {
     const[nftsList, setNftsList] = useState([]);
 
     useEffect(() => {
-
-        if(walletContext && !walletContext.error) {
+        if(walletContext && walletContext.errorCode === METAMASK_NOT_INSTALLED) {
+        } else if(walletContext && walletContext.errorCode) {
             fetchNfts(walletContext.address, setNftsList);
         }
     },[walletContext]);
@@ -145,9 +146,19 @@ const Fractionalise = () => {
         <>
             <Navbar pageLoad='Fraction' setWalletContext={setWalletContext}/>
             <div className="w-full min-h-content bg-gin-50">
-                <div className="pb-20 py-10 min-h-screen z-10 w-full">
-                    <FractionCard walletNFTsList={nftsList}  walletContext={walletContext}/>
-                </div>
+                {
+                    (walletContext && !walletContext.loading && walletContext.errorCode === METAMASK_NOT_INSTALLED) ? (
+                        <>
+                            <div className="h-screen w-full bg-gin-50 flex items-center justify-center">
+                                <a className="rounded-lg bg-stiletto-500 text-white py-4 px-6 md:py-8 md:px-8 text-base md:text-lg font-bold hover:bg-stiletto-400" href="https://metamask.io/" rel="noreferrer" target="_blank"> Install Metamask </a>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="pb-20 py-10 min-h-screen z-10 w-full">
+                            <FractionCard walletNFTsList={nftsList}  walletContext={walletContext}/>
+                        </div>
+                    )
+                }
             </div>
             {/* <BottomBar /> */}
         </>

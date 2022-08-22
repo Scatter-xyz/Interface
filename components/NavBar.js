@@ -76,12 +76,14 @@ const Navbar = ({pageLoad='Default', setWalletContext}) => {
 
     const connect =  async (wallet) => {
         if(typeof window.ethereum !== 'undefined') {
+            console.log("Wallet is Installed!!");
             const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
             await provider.send("eth_requestAccounts", []);
             const signer = provider.getSigner();
             const address = await signer.getAddress();
             return {...wallet, provider: provider, signer: signer, address: address, loading:false, errorCode: null};
         } else {
+            console.log("Wallet Not Installed!!");
             return {...wallet, address: null , errorCode: METAMASK_NOT_INSTALLED, loading:false}
         }
     }
@@ -135,9 +137,9 @@ const Navbar = ({pageLoad='Default', setWalletContext}) => {
                             </div>) : ''
                     }
                 </div>
-                { !["Default","Trade"].includes(pageLoad) ? (wallet.loading ? <button onClick={() => connectWallet(wallet)} className="rounded bg-emerald-900 hover:bg-emerald-700 text-white px-3 py-3 text-base font-normal"> Connect To Metamask</button> : wallet.error === 'METAMASK_NOT_INSTALLED'
-                ? <button onClick={() => connectWallet(wallet)} className="rounded bg-emerald-900 hover:bg-emerald-700 text-white px-3 py-3 text-slate-700 text-base font-normal"> Connect To Metamask</button> 
-                : <button disabled className="rounded-full border-2 border-teal-800 bg-neutral-700 text-white px-4 py-1 md:px-8 md:py-2.5 font-normal text-sm"> {wallet.address.substring(0,4) + '...' + wallet.address.substring(wallet.address.length - 4,wallet.address.length)}</button> ) : ''}
+                { !["Default","Trade"].includes(pageLoad) ? (wallet.loading ? '' : (wallet.errorCode === 'METAMASK_NOT_INSTALLED'
+                ? <button disabled className="rounded-lg md:rounded-full bg-red-700 text-white px-3 py-3 sm:px-3 sm:py-3 text-[8px] sm:text-[10px] md:text-[12px] md:px-4 md:py-4 lg:px-5 lg:py-4 border-2 bored-red-800 lg:text-sm font-semibold"> Metamask Not Installed</button> 
+                : <button disabled className="rounded-full border-2 border-teal-800 bg-neutral-700 text-white px-4 py-1 md:px-8 md:py-2.5 font-normal text-sm"> {wallet.address.substring(0,4) + '...' + wallet.address.substring(wallet.address.length - 4,wallet.address.length)}</button>)) : ''}
             </nav>
         </div>
         </>
