@@ -14,12 +14,21 @@ const navOptions = [
 
 const PopulateNav = ({pageLoad}) => {
     return (
-        <>
+        <div className="flex flex-row">
             {
             navOptions.map(([title, url, active]) => (
-                <a key={title} href={active ? url : ''} className={ `px-3 py-3 text-l font-semibold ${active ? 'text-emerald-900 text-slate-700 hover:text-slate-900 hover:font-bold' : 'rounded text-zinc-400 cursor-not-allowed disabled'} ${pageLoad === title ? 'border-b-2 border-emerald-500' : '' }` }>{title}</a>
+                <div className="relative w-content h-content">
+                    {
+                        !active ? (
+                            <div className="absolute flex flex-row items-start justify-end w-full h-full">
+                                <div className="rounded-full flex  bg-red-500 text-[10px] px-1 text-white">dev</div>
+                            </div>
+                        ) : <> </>
+                    }
+                    <a key={title} href={active ? url : ''} className={ `py-3 text-l font-semibold ${active ? 'px-3 text-emerald-900 text-slate-700 hover:text-slate-900 hover:font-bold' : 'pr-7 rounded text-zinc-400 cursor-not-allowed disabled'} ${pageLoad === title ? 'border-b-2 border-emerald-500' : '' }` }>{title}</a>
+                </div>
             ))}
-        </>
+        </div>
     )
 
 }
