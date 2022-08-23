@@ -136,9 +136,12 @@ const Fractionalise = () => {
     const[nftsList, setNftsList] = useState([]);
 
     useEffect(() => {
+        console.log("Wallet Context: ", walletContext);
         if(walletContext && walletContext.errorCode === METAMASK_NOT_INSTALLED) {
-        } else if(walletContext && walletContext.errorCode) {
+            console.log("Wallet: ", walletContext);
+        } else if(walletContext && walletContext.errorCode === '') {
             fetchNfts(walletContext.address, setNftsList);
+            console.log("Nfts List: ", nftsList);
         }
     },[walletContext]);
 
