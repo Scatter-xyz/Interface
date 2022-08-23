@@ -17,15 +17,15 @@ const PopulateNav = ({pageLoad}) => {
         <div className="flex flex-row">
             {
             navOptions.map(([title, url, active]) => (
-                <div key={title} className="relative w-content h-content">
+                <div key={title} className="relative w-content h-content cursor-not-allowed">
                     {
                         !active ? (
-                            <div className="absolute flex flex-row items-start justify-end w-full h-full">
+                            <div className="absolute flex flex-row items-start justify-end w-full h-full z-0">
                                 <div className="rounded-full flex bg-red-500 text-[10px] px-1 text-white font-semibold">dev</div>
                             </div>
                         ) : <> </>
                     }
-                    <a href={active ? url : ''} className={ `py-3 text-l font-semibold ${active ? 'px-3 text-emerald-900 text-slate-700 hover:text-slate-900 hover:font-bold' : 'pr-7 rounded text-zinc-400 cursor-not-allowed disabled'} ${pageLoad === title ? 'border-b-2 border-emerald-500' : '' }` }>{title}</a>
+                    <a href={active ? url : ''} className={ `py-3 text-l font-semibold ${active ? 'px-3 text-emerald-900 text-slate-700 hover:text-slate-900 hover:font-bold' : 'pr-7 pl-3 rounded text-zinc-400 disabled'} ${pageLoad === title ? 'border-b-2 border-emerald-500' : '' }` }>{title}</a>
                 </div>
             ))}
         </div>
