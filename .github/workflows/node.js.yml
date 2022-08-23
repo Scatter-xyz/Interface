@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "dev" ]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -28,11 +28,14 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build 
-   # - run: npm test
+    - name: Export static files
+      run: npm run export
+    - name: Add .nojekyll file
+      run: touch ./out/.nojekyll
 
     - name: Deploy 🚀
-      uses: JamesIves/github-pages-deploy-action@3.6.2
+      uses: JamesIves/github-pages-deploy-action@4.1.1
       with:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BRANCH: gh-pages
-        FOLDER: .next # The folder the action should deploy.
+        FOLDER: out
