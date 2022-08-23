@@ -216,7 +216,7 @@ const Navbar = ({pageLoad='Default', setWalletContext}) => {
                     !['Default','Faucet'].includes(pageLoad) ? <FaucetBar /> : ''
                 }
             </div>
-            <nav className="border-4 m-1 md:m-2 flex items-center space-x-1 lg:space-x-6">
+            <nav className="m-1 md:m-2 flex items-center space-x-1 lg:space-x-6">
                 <Link href="/">
                     <a className="font-serif w-32 lg:border-r-2 border-black md:px-3 md:py-3 text-greenKelp-500 hover:text-emerald-700 text-lg md:text-2xl font-semibold md:font-bold">Scatter</a>
                 </Link>
