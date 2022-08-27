@@ -1,8 +1,7 @@
-import Navbar from '../components/NavBar'
+import Navbar from './NavBar'
 import { ethers } from 'ethers';
 import { useEffect, useReducer, useState } from 'react';
-import { BottomBar } from '.'
-import { ERC_721, MAX_FRACTION_COUNT, FRACTION_CONTRACT_ADDRESS} from '../constants/constants';
+import { ERC_721, MAX_FRACTION_COUNT} from '../constants/constants';
 import contractABI from '../public/fractionABI.json';
 import ERC721ABI from '../public/ERC721ABI.json';
 import { METAMASK_NOT_INSTALLED, CHAINID_NOT_SUPPORTED } from "../constants/constants";
@@ -130,9 +129,9 @@ function fetchNfts(owner, setNftsList) {
     return nftsList;
 }
 
-const Fractionalise = () => {
+const Fractionalise = ({context}) => {
 
-    const[walletContext, setWalletContext] = useState();
+    const[walletContext, setWalletContext] = useState(context);
     const[nftsList, setNftsList] = useState([]);
 
     useEffect(() => {
@@ -147,7 +146,7 @@ const Fractionalise = () => {
 
     return (
         <>
-            <Navbar pageLoad='Fraction' setWalletContext={setWalletContext}/>
+            {/* <Navbar pageLoad='Fractionalise' setWalletContext={setWalletContext}/> */}
             <div className="w-full min-h-content bg-gin-50">
                 {
                     (walletContext && !walletContext.loading && walletContext.errorCode === METAMASK_NOT_INSTALLED) ? (
@@ -169,7 +168,6 @@ const Fractionalise = () => {
                     )
                 }
             </div>
-            {/* <BottomBar /> */}
         </>
     )
 }

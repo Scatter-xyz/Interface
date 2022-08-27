@@ -76,17 +76,13 @@ async function changeNetwork(wallet, chain, toggleNetworkBar, setWallet, setWall
             console.log("Chain: ", chain);
 
             await window.ethereum.request({
-                method: "wallet_addEthereumChain",
+                method: "wallet_switchEthereumChain",
                 params: [{
-                    chainId: utils.hexValue(80001),
-                    rpcUrls: ["https://rpc-mumbai.maticvigil.com/"],
-                    chainName: "Polygon Mumbai Testnet",
-                    nativeCurrency: {
-                        name: "MATIC",
-                        symbol: "MATIC",
-                        decimals: 18
-                    },
-                    blockExplorerUrls: ["https://mumbai.polygonscan.com/"]
+                    chainId: utils.hexValue(chain.chainId),
+                    // rpcUrls: chain.rpcUrls,
+                    // chainName: chain.chainName,
+                    // nativeCurrency: chain.nativeCurrency,
+                    // blockExplorerUrls: [chain.blockExplorer]
                 }]
             });
 

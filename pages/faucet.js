@@ -1,7 +1,6 @@
 import Navbar from '../components/NavBar';
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import { FAUCET_CONTRACT_ADDRESS } from '../constants/constants';
 import faucetABI from '../public/FaucetABI.json';
 
 const Faucet = () => {
@@ -17,7 +16,7 @@ const Faucet = () => {
     },[walletContext]);
 
     const setupWallet = async () => {
-        const faucetContract = new ethers.Contract(FAUCET_CONTRACT_ADDRESS, faucetABI, walletContext.provider);
+        const faucetContract = new ethers.Contract(walletContext.faucetContract, faucetABI, walletContext.provider);
         const signedFaucetContract = faucetContract.connect(walletContext.signer);
 
         setSignedStakingContract(signedFaucetContract);

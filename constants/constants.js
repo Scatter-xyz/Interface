@@ -9,14 +9,9 @@ export const ERC_721 = "ERC721";
 
 //Fraction Count
 export const MAX_FRACTION_COUNT = 10000;
-export const FRACTION_CONTRACT_ADDRESS = "0xd4B71e9D524FB4925c8C3044b45f5FdABbad976e";
-
-//Faucet Contract
-export const FAUCET_CONTRACT_ADDRESS = "0x7fF62C41a99DcF968395cC47eAa5014efD9b3A4b";
 
 //Opensea Details
 export const OPENSEA_LINK = "https://testnets.opensea.io/assets/mumbai/"
-export const MUMBAI_CONTRACT_BASE_URL = "https://mumbai.polygonscan.com/address/"
 
 //Social Media Handles
 export const TWITTER_LINK = "https://twitter.com/tryscatterxyz?s=11&t=hyIpfRdZV0OGHvouJEFPIg";
@@ -27,26 +22,70 @@ export const GITHUB_LINK = "https://github.com/Scatter-xyz";
 export const SUPPORTED_CHAINS = [
     {
         name: "Ethereum",
-        chainId: 1,
-        image: "ethereum-eth-logo.png",
-        active: false
+        chainName: 'Kovan Testnet',
+        chainId: 42,
+        image: "/ethereum-eth-logo.png",
+        marketplace: "https://testnets.opensea.io/assets/kovan/",
+        blockExplorer: "https://kovan.etherscan.io", 
+        fractionContract: "0x04fd8C06965797196580dB762D6b573A3beAa75E",
+        faucetContract: "0x75BA31F251b9dd1230a19631F1902f918b1CFF3B",
+        rpcUrls: ["https://kovan.infura.io/v3/"],
+        nativeCurrency: {
+            name: "KovanETH",
+            symbol: "KovanETH",
+            decimals: 18
+        },
+        active: true
     },
     {
         name: "Polygon",
+        chainName: 'Polygon Mumbai Testnet',
         chainId: 80001,
-        image: "polygon-matic-logo.png",
+        image: "/polygon-matic-logo.png",
+        marketplace: "https://testnets.opensea.io/assets/mumbai/",
+        blockExplorer: "https://mumbai.polygonscan.com/",
+        fractionContract: "0xd4B71e9D524FB4925c8C3044b45f5FdABbad976e",
+        faucetContract: "0x7fF62C41a99DcF968395cC47eAa5014efD9b3A4b",
+        rpcUrls: ["https://polygon-testnet.public.blastapi.io", "https://rpc-mumbai.maticvigil.com/", "https://rpc.ankr.com/polygon_mumbai"],
+        nativeCurrency: {
+            name: "MATIC",
+            symbol: "MATIC",
+            decimals: 18
+        },
         active: true
     },
     {
         name: "Celo",
-        chainId: 42220,
-        image: "celo-celo-logo.png",
+        chainName: 'Polygon Mumbai Testnet',
+        chainId: 62320,
+        image: "/celo-celo-logo.png",
+        marketplace: "https://testnets.opensea.io/assets/mumbai/",
+        blockExplorer: "https://baklava-blockscout.celo-testnet.org/",
+        fractionContract: "0xd4B71e9D524FB4925c8C3044b45f5FdABbad976e",
+        faucetContract: "0x7fF62C41a99DcF968395cC47eAa5014efD9b3A4b",
+        rpcUrls: ["https://baklava-forno.celo-testnet.org"],
+        nativeCurrency: {
+            name: "MATIC",
+            symbol: "MATIC",
+            decimals: 18
+        },
         active: false
     },
     {
         name: "Aurora",
-        chainId: 1313161554,
-        image: "aurora-aoa-logo.png",
+        chainName: 'Aurora Testnet',
+        chainId: 1313161555,
+        image: "/aurora-stack-rev.png",
+        marketplace: "https://testnets.opensea.io/assets/mumbai/",
+        blockExplorer: "https://testnet.aurorascan.dev",
+        fractionContract: "0xd4B71e9D524FB4925c8C3044b45f5FdABbad976e",
+        faucetContract: "0x7fF62C41a99DcF968395cC47eAa5014efD9b3A4b",
+        rpcUrls: ["https://testnet.aurora.dev/"],
+        nativeCurrency: {
+            name: "ETH",
+            symbol: "ETH",
+            decimals: 18
+        },
         active: false
     }
 ];

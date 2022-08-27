@@ -2,7 +2,7 @@ import Navbar from '../components/NavBar';
 import { useState, useEffect } from 'react';
 import { BottomBar } from '.';
 import { ethers } from 'ethers';
-import { OPENSEA_LINK,FRACTION_CONTRACT_ADDRESS, MUMBAI_CONTRACT_BASE_URL, METAMASK_NOT_INSTALLED, CHAINID_NOT_SUPPORTED } from '../constants/constants';
+import { OPENSEA_LINK, METAMASK_NOT_INSTALLED, CHAINID_NOT_SUPPORTED } from '../constants/constants';
 import contractABI from '../public/fractionABI.json';
 import ERC1155ABI from '../public/ERC1155ABI.json';
 
@@ -39,17 +39,17 @@ const MergeCard = ({nftData={}, walletContext}) => {
 
     const mergeFraction = async () => {
         if(walletContext && !walletContext.error) {
-            const stakingContract = new ethers.Contract(FRACTION_CONTRACT_ADDRESS, contractABI, walletContext.provider);
+            const stakingContract = new ethers.Contract(walletContext.fractionContract, contractABI, walletContext.provider);
             const signedStakingContract = await stakingContract.connect(walletContext.signer);
             
             const tokenAddress = new ethers.Contract(data.fractionAddress, ERC1155ABI, walletContext.provider);
             const signedTokenAddress = await tokenAddress.connect(walletContext.signer);
-            const isApproved = await signedTokenAddress.isApprovedForAll(data.owner, FRACTION_CONTRACT_ADDRESS);
+            const isApproved = await signedTokenAddress.isApprovedForAll(data.owner, walletContext.fractionContract);
 
             console.log("Approver is: ", isApproved);
         
             if(!isApproved) {
-                const txnReceipt = await signedTokenAddress.setApprovalForAll(FRACTION_CONTRACT_ADDRESS, true);
+                const txnReceipt = await signedTokenAddress.setApprovalForAll(walletContext.fractionContract, true);
                 console.log("Transcation Receipt: ", txnReceipt);
                 <div className="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
                     Transaction has been sent with Reciept: {txnReceipt.hash}
@@ -101,12 +101,12 @@ const MergeCard = ({nftData={}, walletContext}) => {
                         <div className="flex flex-row">
                             <p className="text-emerald-700 text-sm font-semibold mb-2">Original Address: </p>
                             <div className="flex-1" />
-                            <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${MUMBAI_CONTRACT_BASE_URL + data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,2) + "..." + data.originalAddress.substring(data.originalAddress.length-4,data.originalAddress.length)} </a> 
+                            <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${walletContext.blockExplorer + data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,2) + "..." + data.originalAddress.substring(data.originalAddress.length-4,data.originalAddress.length)} </a> 
                         </div>
                         <div className="flex flex-row">
                             <p className="text-emerald-700 text-sm font-semibold mb-2">Fraction Address: </p>
                             <div className="flex-1" />
-                            <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${MUMBAI_CONTRACT_BASE_URL + data.fractionAddress}`} rel="noreferrer" target="_blank">{data.fractionAddress.substring(0,2) + "..." + data.fractionAddress.substring(data.fractionAddress.length-4,data.fractionAddress.length)}  </a>
+                            <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${walletContext.blockExplorer + data.fractionAddress}`} rel="noreferrer" target="_blank">{data.fractionAddress.substring(0,2) + "..." + data.fractionAddress.substring(data.fractionAddress.length-4,data.fractionAddress.length)}  </a>
                         </div>
                         <div className="flex flex-row">
                             <p className="text-emerald-700 text-sm font-semibold mb-2">Token Id: </p>
