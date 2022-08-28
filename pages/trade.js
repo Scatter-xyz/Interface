@@ -1,6 +1,6 @@
 import Navbar from '../components/NavBar'
 import { BottomBar } from '.'
-import { OPENSEA_LINK, MUMBAI_CONTRACT_BASE_URL } from '../constants/constants';
+import { OPENSEA_LINK } from '../constants/constants';
 import { useEffect, useState } from 'react';
 
 var myHeaders = new Headers();

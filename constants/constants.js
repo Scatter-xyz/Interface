@@ -14,7 +14,7 @@ export const MAX_FRACTION_COUNT = 10000;
 export const OPENSEA_LINK = "https://testnets.opensea.io/assets/mumbai/"
 
 //File Types
-const FILE_TYPES = ["JPG", "PNG", "GIF"];
+export const FILE_TYPES = ["JPG", "PNG", "GIF"];
 
 //Social Media Handles
 export const TWITTER_LINK = "https://twitter.com/tryscatterxyz?s=11&t=hyIpfRdZV0OGHvouJEFPIg";
