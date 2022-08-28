@@ -16,7 +16,7 @@ const Faucet = () => {
     },[walletContext]);
 
     const setupWallet = async () => {
-        const faucetContract = new ethers.Contract(walletContext.faucetContract, faucetABI, walletContext.provider);
+        const faucetContract = new ethers.Contract(walletContext.chain.faucetContract, faucetABI, walletContext.provider);
         const signedFaucetContract = faucetContract.connect(walletContext.signer);
 
         setSignedStakingContract(signedFaucetContract);
