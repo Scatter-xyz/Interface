@@ -12,6 +12,7 @@ export const MAX_FRACTION_COUNT = 10000;
 
 //Opensea Details
 export const OPENSEA_LINK = "https://testnets.opensea.io/assets/mumbai/"
+export const MUMBAI_CONTRACT_BASE_URL = "0xd4B71e9D524FB4925c8C3044b45f5FdABbad976e"
 
 //File Types
 export const FILE_TYPES = ["JPG", "PNG", "GIF"];
