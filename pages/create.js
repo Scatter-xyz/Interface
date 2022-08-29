@@ -22,7 +22,7 @@ async function storeFiles(files) {
   }
 
 const Create = () => {
-    const[wallet, setWallet] = useContext(WalletContext);
+    const {wallet, setWallet} = useContext(WalletContext);
     const [file, setFile] = useState(null);
     const [createObjectURL, setCreateObjectURL] = useState(null);
     const handleChange = file => {

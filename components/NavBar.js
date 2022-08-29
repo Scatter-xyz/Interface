@@ -2,29 +2,33 @@ import Link from "next/link";
 import WalletConnect from "./WalletConnect";
 import { useEffect, useState } from "react";
 const navOptions = [
-    ['Fraction', '/fraction', true],
-    ['Trade', '/trade', true],
-    ['Merge', '/merge', true],
-    ['IFOs', '/ifos', false],
-    // ['FAQ', '/faq', true],
-    // ['About Us', '/about', true],
+    ['Create','/create', true, true],
+    ['Fraction', '/fraction', true, false],
+    ['Trade', '/trade', true, false],
+    ['Merge', '/merge', true, false],
+    ['IFOs', '/ifos', false, false],
 ]
 
 const PopulateNav = ({pageLoad}) => {
     return (
         <div className="flex flex-row">
             {
-            navOptions.map(([title, url, active]) => (
-                <div key={title} className="relative w-content h-content cursor-not-allowed">
-                    {
-                        !active ? (
-                            <div className="absolute flex flex-row items-start justify-end w-full h-full z-0">
-                                <div className="rounded-full flex bg-red-500 text-[10px] px-1 text-white font-semibold">dev</div>
-                            </div>
-                        ) : <> </>
-                    }
-                    <a href={active ? url : ''} className={ `py-3 text-l font-semibold ${active ? 'px-3 text-emerald-900 text-slate-700 hover:text-slate-900 hover:font-bold' : 'pr-7 pl-3 rounded text-zinc-400 disabled'} ${pageLoad === title ? 'border-b-2 border-emerald-500' : '' }` }>{title}</a>
-                </div>
+            navOptions.map(([title, url, active, newTag]) => (
+                
+                <a key={title} href={active ? url : ''} >
+                    <div className="relative w-content h-content">
+                        {
+                            !active ? (
+                                <div className="cursor-not-allowed absolute flex flex-row items-start justify-end w-full h-full z-0">
+                                    <div className="rounded-full flex bg-red-500 text-[10px] px-1 mt-2 text-white font-semibold">dev</div>
+                                </div>
+                            ) : (
+                                    newTag ? <NewTag/> : ''
+                                )
+                        } 
+                        <div className={ `z-10 py-3 text-l font-semibold ${active ? 'px-3 text-emerald-900 text-slate-700 hover:text-slate-900 hover:font-bold' : 'pr-7 pl-3 rounded text-zinc-400 cursor-not-allowed disabled'} ${pageLoad === title ? 'border-b-2 border-emerald-500' : '' } ${newTag ? 'mr-5 pl-3' : ''}` }>{title}</div>
+                    </div>
+                </a>   
             ))}
         </div>
     )
@@ -35,7 +39,7 @@ const PopulateBottomNav = ({pageLoad}) => {
     return (
         <div className="rounded-[16px] m-auto flex flex-row justify-center items-center w-auto bg-stiletto-600 border-2 border-stiletto-400 text-white">
             {
-                navOptions.map(([title, url, active]) => (
+                navOptions.map(([title, url, active, newTag]) => (
                     active ? <a key={title} href={active ? url : ''} className={`rounded-[16px] text-white px-4 py-3 text-semibold ${active ? 'hover:text-gray-100 text-white hover:text-slate-900' : 'rounded text-zinc-400 cursor-not-allowed disabled'} ${pageLoad === title ? 'font-bold bg-stiletto-400' : 'font-semibold' }` }>{title}</a> : ''
             ))}
         </div>
@@ -50,7 +54,7 @@ const BurgerMenu = ({setBurgerMenu, pageLoad}) => {
             </div>
             <div className="flex flex-col pt-20 pl-8">
                 {
-                    navOptions.map(([title, url, active]) => (
+                    navOptions.map(([title, url, active, newTag]) => (
                         <a key={title} href={active ? url : ''} className="text-3xl md:text-4xl m-4 md:m-5 text-greenKelp-500 hover:text-greenKelp-100 m-1 font-bold">{title}</a>
                     ))
                 }

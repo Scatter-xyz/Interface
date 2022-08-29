@@ -2,7 +2,6 @@ import Navbar from '../components/NavBar';
 import { WalletContext } from './_app';
 import { useState, useEffect, useContext } from 'react';
 import { ethers } from 'ethers';
-import { FAUCET_CONTRACT_ADDRESS } from '../constants/constants';
 import faucetABI from '../public/FaucetABI.json';
 
 const Faucet = () => {

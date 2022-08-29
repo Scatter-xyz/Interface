@@ -2,7 +2,7 @@ import Navbar from '../components/NavBar'
 import { ethers } from 'ethers';
 import { useContext, useEffect, useReducer, useState } from 'react';
 import { BottomBar } from '.'
-import { ERC_721, MAX_FRACTION_COUNT, FRACTION_CONTRACT_ADDRESS, MUMBAI_CONTRACT_BASE_URL } from '../constants/constants';
+import { ERC_721, MAX_FRACTION_COUNT, FRACTION_CONTRACT_ADDRESS} from '../constants/constants';
 import contractABI from '../public/fractionABI.json';
 import ERC721ABI from '../public/ERC721ABI.json';
 import { METAMASK_NOT_INSTALLED, CHAINID_NOT_SUPPORTED } from "../constants/constants";
@@ -10,9 +10,15 @@ import { WalletContext } from './_app';
 
 const maxFractionCount = MAX_FRACTION_COUNT;
 
+<<<<<<< HEAD
 const executeFractionalisation = async ({wallet, contractAddress, tokenID, tokenCount}) => {
     const stakingContract = new ethers.Contract(FRACTION_CONTRACT_ADDRESS,contractABI,wallet.provider);
     const signedStakingContract = await stakingContract.connect(wallet.signer);
+=======
+const executeFractionalisation = async ({walletContext, contractAddress, tokenID, tokenCount}) => {
+    const stakingContract = new ethers.Contract(walletContext.chain.fractionContract,contractABI,walletContext.provider);
+    const signedStakingContract = await stakingContract.connect(walletContext.signer);
+>>>>>>> b0c9194ce3ce7372c3cc4d9f4bdfeeeab6b55859
 
     const tokenAddress = new ethers.Contract(contractAddress, ERC721ABI, wallet.provider);
     const signedTokenAddress = await tokenAddress.connect(wallet.signer);
@@ -20,8 +26,8 @@ const executeFractionalisation = async ({wallet, contractAddress, tokenID, token
 
     console.log("Approver is: ", tokenApproved);
 
-    if(tokenApproved.toLowerCase() !== FRACTION_CONTRACT_ADDRESS.toLowerCase()) {
-        const txnReceipt = await signedTokenAddress.approve(FRACTION_CONTRACT_ADDRESS,tokenID);
+    if(tokenApproved.toLowerCase() !== walletContext.chain.fractionContract.toLowerCase()) {
+        const txnReceipt = await signedTokenAddress.approve(walletContext.chain.fractionContract,tokenID);
         console.log("Transcation Receipt: ", txnReceipt);
         <div className="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
             Transaction has been sent with Reciept: {txnReceipt.hash}
@@ -72,7 +78,7 @@ const FractionCard = ({walletNFTsList = [], wallet}) => {
                                             <div className="flex flex-row">
                                                 <p className="text-emerald-700 text-sm font-semibold mb-2">Original Address: </p>
                                                 <div className="flex-1" />
-                                                <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${MUMBAI_CONTRACT_BASE_URL + data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,2) + "..." + data.originalAddress.substring(data.originalAddress.length-4,data.originalAddress.length)} </a> 
+                                                <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${walletContext.chain.blockExplorer + data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,2) + "..." + data.originalAddress.substring(data.originalAddress.length-4,data.originalAddress.length)} </a> 
                                             </div>
                                             <div className="flex flex-row">
                                                 <p className="text-emerald-700 text-sm font-semibold mb-2">Token Id:</p>
@@ -99,7 +105,7 @@ const FractionCard = ({walletNFTsList = [], wallet}) => {
     )
 }
 
-function fetchNfts(owner, setNftsList) {
+function fetchNfts(walletContext, setNftsList) {
     let nftsList = [];
 
     var myHeaders = new Headers();
@@ -111,11 +117,13 @@ function fetchNfts(owner, setNftsList) {
     redirect: 'follow'
     };
 
-    fetch(`https://polygon-mumbai.g.alchemy.com/v2/l0jLil9DtS2WsAcK8r9_bq7GBNrWHTFk/getNFTs/?owner=${owner}`, requestOptions)
+    console.log("Walet Coonext: ", walletContext);
+
+    fetch(`${walletContext.chain.nftInfraURL}getNFTs/?owner=${walletContext.address}`, requestOptions)
     .then(response => response.json())
     .then(result => {
         result.ownedNfts.map((nft) => {
-            if(nft.id.tokenMetadata.tokenType === ERC_721) {
+            if(nft.id.tokenMetadata.tokenType === ERC_721 && (nft && nft.media && nft.media[0].gateway)) {
                 nftsList.push(
                     {
                         nftImage: nft.media[0].gateway,
@@ -137,11 +145,19 @@ const Fractionalise = () => {
     const[nftsList, setNftsList] = useState([]);
 
     useEffect(() => {
+<<<<<<< HEAD
         console.log("Wallet Context: ", wallet);
         if(wallet && wallet.errorCode === METAMASK_NOT_INSTALLED) {
             console.log("Wallet: ", wallet);
         } else if(wallet && wallet.errorCode === '') {
             fetchNfts(wallet.address, setNftsList);
+=======
+        console.log("Wallet Context: ", walletContext);
+        if(walletContext && walletContext.errorCode === METAMASK_NOT_INSTALLED) {
+            console.log("Wallet: ", walletContext);
+        } else if(walletContext && walletContext.errorCode === '') {
+            fetchNfts(walletContext, setNftsList);
+>>>>>>> b0c9194ce3ce7372c3cc4d9f4bdfeeeab6b55859
             console.log("Nfts List: ", nftsList);
         }
     },[wallet]);
