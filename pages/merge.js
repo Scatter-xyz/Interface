@@ -39,7 +39,6 @@ const MergeCard = ({nftData={}, wallet}) => {
     }
 
     const mergeFraction = async () => {
-<<<<<<< HEAD
         if(wallet && !wallet.error) {
             const stakingContract = new ethers.Contract(FRACTION_CONTRACT_ADDRESS, contractABI, wallet.provider);
             const signedStakingContract = await stakingContract.connect(wallet.signer);
@@ -47,15 +46,6 @@ const MergeCard = ({nftData={}, wallet}) => {
             const tokenAddress = new ethers.Contract(data.fractionAddress, ERC1155ABI, wallet.provider);
             const signedTokenAddress = await tokenAddress.connect(wallet.signer);
             const isApproved = await signedTokenAddress.isApprovedForAll(data.owner, FRACTION_CONTRACT_ADDRESS);
-=======
-        if(walletContext && !walletContext.errorCode) {
-            const stakingContract = new ethers.Contract(walletContext.chain.fractionContract, contractABI, walletContext.provider);
-            const signedStakingContract = await stakingContract.connect(walletContext.signer);
-            
-            const tokenAddress = new ethers.Contract(data.fractionAddress, ERC1155ABI, walletContext.provider);
-            const signedTokenAddress = await tokenAddress.connect(walletContext.signer);
-            const isApproved = await signedTokenAddress.isApprovedForAll(data.owner, walletContext.chain.fractionContract);
->>>>>>> b0c9194ce3ce7372c3cc4d9f4bdfeeeab6b55859
 
             console.log("Approver is: ", isApproved);
         
@@ -80,11 +70,7 @@ const MergeCard = ({nftData={}, wallet}) => {
         let nftResponse = await fetch(data.nftImage.replace('ipfs://','https://ipfs.io/ipfs/'));
         let nftMeta = await nftResponse.json();
         let availableFractionCount = '0';
-<<<<<<< HEAD
-        if(wallet && !wallet.error) {
-=======
-        if(walletContext && !walletContext.errorCode) {
->>>>>>> b0c9194ce3ce7372c3cc4d9f4bdfeeeab6b55859
+        if(wallet.address && !wallet.error) {
             availableFractionCount = fetchFractionCount();
         }
         availableFractionCount = await fetchFractionCount();
@@ -116,12 +102,12 @@ const MergeCard = ({nftData={}, wallet}) => {
                         <div className="flex flex-row">
                             <p className="text-emerald-700 text-sm font-semibold mb-2">Original Address: </p>
                             <div className="flex-1" />
-                            <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${walletContext.chain.blockExplorer + data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,2) + "..." + data.originalAddress.substring(data.originalAddress.length-4,data.originalAddress.length)} </a> 
+                            <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${wallet.chain.blockExplorer + data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,2) + "..." + data.originalAddress.substring(data.originalAddress.length-4,data.originalAddress.length)} </a> 
                         </div>
                         <div className="flex flex-row">
                             <p className="text-emerald-700 text-sm font-semibold mb-2">Fraction Address: </p>
                             <div className="flex-1" />
-                            <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${walletContext.chain.blockExplorer + data.fractionAddress}`} rel="noreferrer" target="_blank">{data.fractionAddress.substring(0,2) + "..." + data.fractionAddress.substring(data.fractionAddress.length-4,data.fractionAddress.length)}  </a>
+                            <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${wallet.chain.blockExplorer + data.fractionAddress}`} rel="noreferrer" target="_blank">{data.fractionAddress.substring(0,2) + "..." + data.fractionAddress.substring(data.fractionAddress.length-4,data.fractionAddress.length)}  </a>
                         </div>
                         <div className="flex flex-row">
                             <p className="text-emerald-700 text-sm font-semibold mb-2">Token Id: </p>

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import WalletConnect from "./WalletConnect";
 import { useEffect, useState } from "react";
+import { NewTag } from "./CommonUtils";
+
 const navOptions = [
     ['Create','/create', true, true],
     ['Fraction', '/fraction', true, false],

@@ -10,15 +10,9 @@ import { WalletContext } from './_app';
 
 const maxFractionCount = MAX_FRACTION_COUNT;
 
-<<<<<<< HEAD
 const executeFractionalisation = async ({wallet, contractAddress, tokenID, tokenCount}) => {
     const stakingContract = new ethers.Contract(FRACTION_CONTRACT_ADDRESS,contractABI,wallet.provider);
     const signedStakingContract = await stakingContract.connect(wallet.signer);
-=======
-const executeFractionalisation = async ({walletContext, contractAddress, tokenID, tokenCount}) => {
-    const stakingContract = new ethers.Contract(walletContext.chain.fractionContract,contractABI,walletContext.provider);
-    const signedStakingContract = await stakingContract.connect(walletContext.signer);
->>>>>>> b0c9194ce3ce7372c3cc4d9f4bdfeeeab6b55859
 
     const tokenAddress = new ethers.Contract(contractAddress, ERC721ABI, wallet.provider);
     const signedTokenAddress = await tokenAddress.connect(wallet.signer);
@@ -78,7 +72,7 @@ const FractionCard = ({walletNFTsList = [], wallet}) => {
                                             <div className="flex flex-row">
                                                 <p className="text-emerald-700 text-sm font-semibold mb-2">Original Address: </p>
                                                 <div className="flex-1" />
-                                                <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${walletContext.chain.blockExplorer + data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,2) + "..." + data.originalAddress.substring(data.originalAddress.length-4,data.originalAddress.length)} </a> 
+                                                <a className="text-sm text-emerald-900 hover:text-emerald-700" href={`${wallet.chain.blockExplorer + data.originalAddress}`} rel="noreferrer" target="_blank">{data.originalAddress.substring(0,2) + "..." + data.originalAddress.substring(data.originalAddress.length-4,data.originalAddress.length)} </a> 
                                             </div>
                                             <div className="flex flex-row">
                                                 <p className="text-emerald-700 text-sm font-semibold mb-2">Token Id:</p>
@@ -106,6 +100,7 @@ const FractionCard = ({walletNFTsList = [], wallet}) => {
 }
 
 function fetchNfts(walletContext, setNftsList) {
+    console.log("Wallet - FetchNfts ", walletContext);
     let nftsList = [];
 
     var myHeaders = new Headers();
@@ -145,19 +140,10 @@ const Fractionalise = () => {
     const[nftsList, setNftsList] = useState([]);
 
     useEffect(() => {
-<<<<<<< HEAD
         console.log("Wallet Context: ", wallet);
-        if(wallet && wallet.errorCode === METAMASK_NOT_INSTALLED) {
-            console.log("Wallet: ", wallet);
-        } else if(wallet && wallet.errorCode === '') {
-            fetchNfts(wallet.address, setNftsList);
-=======
-        console.log("Wallet Context: ", walletContext);
-        if(walletContext && walletContext.errorCode === METAMASK_NOT_INSTALLED) {
-            console.log("Wallet: ", walletContext);
-        } else if(walletContext && walletContext.errorCode === '') {
-            fetchNfts(walletContext, setNftsList);
->>>>>>> b0c9194ce3ce7372c3cc4d9f4bdfeeeab6b55859
+        if(wallet.address && wallet.errorCode === METAMASK_NOT_INSTALLED) {
+        } else if(wallet.address && wallet.errorCode === '') {
+            fetchNfts(wallet, setNftsList);
             console.log("Nfts List: ", nftsList);
         }
     },[wallet]);

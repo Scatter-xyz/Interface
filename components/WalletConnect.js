@@ -38,7 +38,7 @@ const ConnectWalletButton = ({wallet, pageLoad, setWallet}) => {
     return (
         <>
         { 
-            !["Default","Trade"].includes(pageLoad) ? (wallet.loading ? '' : (wallet.errorCode === METAMASK_NOT_INSTALLED
+            !["Default","Trade"].includes(pageLoad) ? (wallet.address && wallet.loading ? '' : (wallet.errorCode === METAMASK_NOT_INSTALLED
             ? <button disabled className="rounded-lg md:rounded-[22px] bg-red-600 text-white px-3 py-3 sm:px-3 sm:py-3 text-[8px] sm:text-[10px] md:text-[12px] md:px-4 md:py-4 lg:px-5 lg:py-4 border-2 bored-red-800 lg:text-sm font-semibold"> Metamask Not Installed</button> 
             : ( 
             <div className="flex flex rows justify-center items-center">
@@ -117,6 +117,7 @@ const connect =  async (wallet) => {
 
 const connectWallet = async (wallet, setWallet) => {
     const localwallet = await connect(wallet);
+    console.log("Loacl Wallet: ", localwallet);
     setWallet(localwallet);
 }
 
@@ -125,7 +126,6 @@ const WalletConnect = ({pageLoad}) => {
     const {wallet,setWallet} = useContext(WalletContext);
 
     useEffect(() => {
-        setWallet("Test Data");
         console.log("wallet is Data WalletConnect: ", wallet);
         connectWallet(wallet, setWallet);
     },[]);
