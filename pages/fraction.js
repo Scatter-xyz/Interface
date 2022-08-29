@@ -1,20 +1,21 @@
 import Navbar from '../components/NavBar'
 import { ethers } from 'ethers';
-import { useEffect, useReducer, useState } from 'react';
+import { useContext, useEffect, useReducer, useState } from 'react';
 import { BottomBar } from '.'
 import { ERC_721, MAX_FRACTION_COUNT, FRACTION_CONTRACT_ADDRESS, MUMBAI_CONTRACT_BASE_URL } from '../constants/constants';
 import contractABI from '../public/fractionABI.json';
 import ERC721ABI from '../public/ERC721ABI.json';
 import { METAMASK_NOT_INSTALLED, CHAINID_NOT_SUPPORTED } from "../constants/constants";
+import { WalletContext } from './_app';
 
 const maxFractionCount = MAX_FRACTION_COUNT;
 
-const executeFractionalisation = async ({walletContext, contractAddress, tokenID, tokenCount}) => {
-    const stakingContract = new ethers.Contract(FRACTION_CONTRACT_ADDRESS,contractABI,walletContext.provider);
-    const signedStakingContract = await stakingContract.connect(walletContext.signer);
+const executeFractionalisation = async ({wallet, contractAddress, tokenID, tokenCount}) => {
+    const stakingContract = new ethers.Contract(FRACTION_CONTRACT_ADDRESS,contractABI,wallet.provider);
+    const signedStakingContract = await stakingContract.connect(wallet.signer);
 
-    const tokenAddress = new ethers.Contract(contractAddress, ERC721ABI, walletContext.provider);
-    const signedTokenAddress = await tokenAddress.connect(walletContext.signer);
+    const tokenAddress = new ethers.Contract(contractAddress, ERC721ABI, wallet.provider);
+    const signedTokenAddress = await tokenAddress.connect(wallet.signer);
     const tokenApproved = await signedTokenAddress.getApproved(tokenID);
 
     console.log("Approver is: ", tokenApproved);
@@ -35,7 +36,7 @@ const executeFractionalisation = async ({walletContext, contractAddress, tokenID
     }
 }
 
-const FractionCard = ({walletNFTsList = [], walletContext}) => {
+const FractionCard = ({walletNFTsList = [], wallet}) => {
 
     const reducer = (state, action) => {
         return state.set(action.key,action.value);
@@ -50,8 +51,8 @@ const FractionCard = ({walletNFTsList = [], walletContext}) => {
             <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800 z-50" role="alert">
                 <span className="font-medium">Fraction Count should be less than {MAX_FRACTION_COUNT}</span>
             </div>
-        } else if(walletContext){
-            executeFractionalisation({walletContext, contractAddress, tokenID, tokenCount});
+        } else if(wallet){
+            executeFractionalisation({wallet, contractAddress, tokenID, tokenCount});
         }
     }
 
@@ -132,38 +133,38 @@ function fetchNfts(owner, setNftsList) {
 
 const Fractionalise = () => {
 
-    const[walletContext, setWalletContext] = useState();
+    const {wallet, setWallet} = useContext(WalletContext);
     const[nftsList, setNftsList] = useState([]);
 
     useEffect(() => {
-        console.log("Wallet Context: ", walletContext);
-        if(walletContext && walletContext.errorCode === METAMASK_NOT_INSTALLED) {
-            console.log("Wallet: ", walletContext);
-        } else if(walletContext && walletContext.errorCode === '') {
-            fetchNfts(walletContext.address, setNftsList);
+        console.log("Wallet Context: ", wallet);
+        if(wallet && wallet.errorCode === METAMASK_NOT_INSTALLED) {
+            console.log("Wallet: ", wallet);
+        } else if(wallet && wallet.errorCode === '') {
+            fetchNfts(wallet.address, setNftsList);
             console.log("Nfts List: ", nftsList);
         }
-    },[walletContext]);
+    },[wallet]);
 
     return (
         <>
-            <Navbar pageLoad='Fraction' setWalletContext={setWalletContext}/>
+            <Navbar pageLoad='Fraction' setWallet={setWallet}/>
             <div className="w-full min-h-content bg-gin-50">
                 {
-                    (walletContext && !walletContext.loading && walletContext.errorCode === METAMASK_NOT_INSTALLED) ? (
+                    (wallet && !wallet.loading && wallet.errorCode === METAMASK_NOT_INSTALLED) ? (
                         <>
                             <div className="h-screen w-full bg-gin-50 flex items-center justify-center my-10">
                                 <a className="rounded-lg bg-stiletto-500 text-white py-4 px-6 md:py-8 md:px-8 text-base md:text-lg font-bold hover:bg-stiletto-400" href="https://metamask.io/" rel="noreferrer" target="_blank"> Install Metamask </a>
                             </div>
                         </>
-                    ) : ( (walletContext && !walletContext.loading && walletContext.errorCode === CHAINID_NOT_SUPPORTED) ? (
+                    ) : ( (wallet && !wallet.loading && wallet.errorCode === CHAINID_NOT_SUPPORTED) ? (
                         <>
                             <div className="h-screen w-full bg-gin-50">
                             </div> 
                         </>
                         ) : (
                         <div className="pb-20 py-10 min-h-screen z-10 w-full">
-                            <FractionCard walletNFTsList={nftsList}  walletContext={walletContext}/>
+                            <FractionCard walletNFTsList={nftsList}  wallet={wallet}/>
                         </div>
                         )
                     )

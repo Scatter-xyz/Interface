@@ -1,10 +1,11 @@
 import Navbar from '../components/NavBar';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { BottomBar } from '.';
 import { ethers } from 'ethers';
 import { OPENSEA_LINK,FRACTION_CONTRACT_ADDRESS, MUMBAI_CONTRACT_BASE_URL, METAMASK_NOT_INSTALLED, CHAINID_NOT_SUPPORTED } from '../constants/constants';
 import contractABI from '../public/fractionABI.json';
 import ERC1155ABI from '../public/ERC1155ABI.json';
+import { WalletContext } from './_app';
 
 var myHeaders = new Headers();
 myHeaders.append("content-type", "application/json");
@@ -26,24 +27,24 @@ function FETCH_OWNER_FRAC_NFTS(owner) {
     return  jsonData;
 }
 
-const MergeCard = ({nftData={}, walletContext}) => {
+const MergeCard = ({nftData={}, wallet}) => {
     const[data,setdata] = useState({...nftData, imageLoading:true});
 
     const fetchFractionCount = async () => {
-        const fractionalAddress = new ethers.Contract(data.fractionAddress, ERC1155ABI, walletContext.provider);
-        const signedFractionalAddress = await fractionalAddress.connect(walletContext.signer);
-        const availableFractionCount = await signedFractionalAddress.balanceOf(walletContext.address, data.tokenID);
+        const fractionalAddress = new ethers.Contract(data.fractionAddress, ERC1155ABI, wallet.provider);
+        const signedFractionalAddress = await fractionalAddress.connect(wallet.signer);
+        const availableFractionCount = await signedFractionalAddress.balanceOf(wallet.address, data.tokenID);
         availableFractionCount = BigInt(availableFractionCount);
         return availableFractionCount.toString();
     }
 
     const mergeFraction = async () => {
-        if(walletContext && !walletContext.error) {
-            const stakingContract = new ethers.Contract(FRACTION_CONTRACT_ADDRESS, contractABI, walletContext.provider);
-            const signedStakingContract = await stakingContract.connect(walletContext.signer);
+        if(wallet && !wallet.error) {
+            const stakingContract = new ethers.Contract(FRACTION_CONTRACT_ADDRESS, contractABI, wallet.provider);
+            const signedStakingContract = await stakingContract.connect(wallet.signer);
             
-            const tokenAddress = new ethers.Contract(data.fractionAddress, ERC1155ABI, walletContext.provider);
-            const signedTokenAddress = await tokenAddress.connect(walletContext.signer);
+            const tokenAddress = new ethers.Contract(data.fractionAddress, ERC1155ABI, wallet.provider);
+            const signedTokenAddress = await tokenAddress.connect(wallet.signer);
             const isApproved = await signedTokenAddress.isApprovedForAll(data.owner, FRACTION_CONTRACT_ADDRESS);
 
             console.log("Approver is: ", isApproved);
@@ -69,7 +70,7 @@ const MergeCard = ({nftData={}, walletContext}) => {
         let nftResponse = await fetch(data.nftImage.replace('ipfs://','https://ipfs.io/ipfs/'));
         let nftMeta = await nftResponse.json();
         let availableFractionCount = '0';
-        if(walletContext && !walletContext.error) {
+        if(wallet && !wallet.error) {
             availableFractionCount = fetchFractionCount();
         }
         availableFractionCount = await fetchFractionCount();
@@ -158,29 +159,29 @@ const fetchAllFractionData = async (owner, setOwnerFractionData) => {
 }
 
 const Merge = () => {
-    const[walletContext, setWalletContext] = useState();
+    const {wallet, setWallet} = useContext(WalletContext);
     const[ownerFractionData, setOwnerFractionData] = useState([]);
 
     useEffect(() => {
-        if(walletContext && walletContext.errorCode === METAMASK_NOT_INSTALLED) {
+        if(wallet && wallet.errorCode === METAMASK_NOT_INSTALLED) {
             console.log("Fraction and metamask not installed!!");
-        } else if(walletContext && !walletContext.errorCode) {
-            fetchAllFractionData(walletContext.address, setOwnerFractionData);
+        } else if(wallet && !wallet.errorCode) {
+            fetchAllFractionData(wallet.address, setOwnerFractionData);
         }
-    },[walletContext]);
+    },[wallet]);
 
     return (   
         <div className="w-full min-h-content bg-gin-50">
-            <Navbar pageLoad="Merge" setWalletContext={setWalletContext}/>  
+            <Navbar pageLoad="Merge" setWallet={setWallet}/>  
             <div className="min-h-screen z-10 w-full pb-20 py-10">
                 {
-                    (walletContext && !walletContext.loading && walletContext.errorCode === METAMASK_NOT_INSTALLED) ? (
+                    (wallet && !wallet.loading && wallet.errorCode === METAMASK_NOT_INSTALLED) ? (
                         <>
                             <div className="h-screen w-full bg-gin-50 flex items-center justify-center">
                                 <a className="rounded-lg bg-stiletto-500 text-white py-4 px-6 md:py-8 md:px-8 text-base md:text-lg font-bold hover:bg-stiletto-400" href="https://metamask.io/" rel="noreferrer" target="_blank"> Install Metamask </a>
                             </div>
                         </>
-                    ) : ( (walletContext && !walletContext.loading && walletContext.errorCode === CHAINID_NOT_SUPPORTED) ? (
+                    ) : ( (wallet && !wallet.loading && wallet.errorCode === CHAINID_NOT_SUPPORTED) ? (
                     <>
                         <div className="h-screen w-full bg-gin-50">
                         </div> 
@@ -192,7 +193,7 @@ const Merge = () => {
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-6 lg:gap-10 xl:gap-12">
                                     {
                                         ownerFractionData.map((data) => 
-                                            <MergeCard key={data.id} nftData={data} walletContext={walletContext}/>
+                                            <MergeCard key={data.id} nftData={data} wallet={wallet}/>
                                         )
                                     }
                                 </div>
