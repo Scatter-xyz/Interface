@@ -38,7 +38,7 @@ const MergeCard = ({nftData={}, walletContext}) => {
     }
 
     const mergeFraction = async () => {
-        if(walletContext && !walletContext.error) {
+        if(walletContext && !walletContext.errorCode) {
             const stakingContract = new ethers.Contract(walletContext.chain.fractionContract, contractABI, walletContext.provider);
             const signedStakingContract = await stakingContract.connect(walletContext.signer);
             
@@ -69,7 +69,7 @@ const MergeCard = ({nftData={}, walletContext}) => {
         let nftResponse = await fetch(data.nftImage.replace('ipfs://','https://ipfs.io/ipfs/'));
         let nftMeta = await nftResponse.json();
         let availableFractionCount = '0';
-        if(walletContext && !walletContext.error) {
+        if(walletContext && !walletContext.errorCode) {
             availableFractionCount = fetchFractionCount();
         }
         availableFractionCount = await fetchFractionCount();

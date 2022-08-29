@@ -10,7 +10,7 @@ const Faucet = () => {
     const[supply, setSupply] = useState(0);
 
     useEffect(() => {
-        if(walletContext && !walletContext.error) {
+        if(walletContext && !walletContext.errorCode) {
             setupWallet();
         }
     },[walletContext]);
@@ -31,7 +31,7 @@ const Faucet = () => {
     }
 
     const mintNFT = async () => {
-        if(walletContext && !walletContext.error) {
+        if(walletContext && !walletContext.errorCode) {
             const txnReceipt = await signedFaucetContract.mintToken();
 
             console.log("Transaction Receipt: ", txnReceipt);
