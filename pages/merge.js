@@ -50,7 +50,7 @@ const MergeCard = ({nftData={}, wallet}) => {
             console.log("Approver is: ", isApproved);
         
             if(!isApproved) {
-                const txnReceipt = await signedTokenAddress.setApprovalForAll(walletContext.chain.fractionContract, true);
+                const txnReceipt = await signedTokenAddress.setApprovalForAll(wallet.chain.fractionContract, true);
                 console.log("Transcation Receipt: ", txnReceipt);
                 <div className="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
                     Transaction has been sent with Reciept: {txnReceipt.hash}
