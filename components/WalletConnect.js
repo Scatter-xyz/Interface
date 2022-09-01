@@ -2,7 +2,7 @@ import { ethers, utils } from "ethers";
 import { WalletContext } from "../pages/_app";
 import { useContext, useEffect, useState } from "react";
 import { METAMASK_NOT_INSTALLED, CHAINID_NOT_SUPPORTED, SUPPORTED_CHAINS } from "../constants/constants";
-
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const ConnectWalletButton = ({wallet, pageLoad, setWallet}) => {
     const [networkBar, toggleNetworkBar] = useState(false);
@@ -133,7 +133,8 @@ const WalletConnect = ({pageLoad}) => {
     return (
         <div>
             {
-                <ConnectWalletButton wallet={wallet} pageLoad={pageLoad}  setWallet={setWallet}/>
+                !["Default"].includes(pageLoad) ? <ConnectButton chainStatus="icon" showBalance={false} accountStatus="address"/> : ''
+                // <ConnectWalletButton wallet={wallet} pageLoad={pageLoad}  setWallet={setWallet}/>
             }
         </div>
     )
