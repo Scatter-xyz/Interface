@@ -6,6 +6,7 @@ import { METAMASK_NOT_INSTALLED, CHAINID_NOT_SUPPORTED, FILE_TYPES } from '../co
 import mintABI from '../public/MintABI.json';
 import { Web3Storage } from 'web3.storage'
 import { WalletContext } from './_app';
+import { useProvider } from 'wagmi'
 
 function getAccessToken () {
   return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDIxQzc5Qjk4ZTE1ODIwNWEwNzMzMzM1NzEyZWIwMDRiRjhhN0Q0QzciLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NjE2MzE4MDAxOTgsIm5hbWUiOiJTY2F0dGVyIn0.H0D97M3xr4g3eP7tn_8URf31vQYz5KrBT2NjB8gZB24";
@@ -22,6 +23,9 @@ async function storeFiles(files) {
   }
 
 const Create = () => {
+    const provider = useProvider()
+    console.log("Provider Door is: ", provider);
+
     const {wallet, setWallet} = useContext(WalletContext);
     const [file, setFile] = useState(null);
     const [createObjectURL, setCreateObjectURL] = useState(null);

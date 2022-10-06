@@ -22,6 +22,48 @@ export const TWITTER_LINK = "https://twitter.com/tryscatterxyz?s=11&t=hyIpfRdZV0
 export const DISCORD_LINK = "";
 export const GITHUB_LINK = "https://github.com/Scatter-xyz";
 
+export const CUSTOM_CHAINS = {
+    "CELO_TESTNET": {
+        id: 44_787,
+        name: "Celo Testnet",
+        network: 'Celo',
+        iconUrl: "/celo-celo-logo.png",
+        iconBackground: '#fff',
+        nativeCurrency: {
+            decimals: 18,
+            name: 'Celo',
+            symbol: 'CELO',
+        },
+        rpcUrls: {
+            default: 'https://alfajores-forno.celo-testnet.org',
+        },
+        blockExplorers: {
+            default: { name: 'Alfajores-blockscout', url: 'https://alfajores-blockscout.celo-testnet.org' }
+        },
+        testnet: true,
+    },
+    "AURORA_TESTNET": {
+        id: 1_313_161_555,
+        name: "Aurora Testnet",
+        network: 'Aurora',
+        iconUrl: "/aurora-stack-rev.png",
+        iconBackground: '#fff',
+        nativeCurrency: {
+            decimals: 18,
+            name: 'Eth',
+            symbol: 'ETH',
+        },
+        rpcUrls: {
+            default: 'https://testnet.aurora.dev/',
+        },
+        blockExplorers: {
+            default: { name: 'Aurorascan', url: 'https://testnet.aurorascan.dev' }
+        },
+        testnet: true,
+    }
+       
+}
+
 //Supported Chains
 export const SUPPORTED_CHAINS = [
     {
